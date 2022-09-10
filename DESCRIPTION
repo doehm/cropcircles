@@ -1,11 +1,24 @@
 Package: cropcircles
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Circle Crops an Image with a Transparent Background
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Author@R: 
+  person(given = "Daniel",
+         family = "Oehm",
+         role = c("aut", "cre"),
+         email = "danieloehm@gmail.com")
+Author: Dan Oehm
+Maintainer: Dan Oehm <danieloehm@gmail.com>
+Description: Functions for circle cropping images. the `circle_crop` takes a 
+  vector of images, either local or from a link, and circle crops the image. 
+  The resulting images can be plotted with 'ggplot2'.
+Depends:
+  R (>= 3.5.0)
+Imports:
+  magick,
+  purrr,
+  utils
+License: CC0
 Encoding: UTF-8
 LazyData: true
+RoxygenNote: 7.2.0
