@@ -9,7 +9,7 @@
 #' will be downloaded first.
 #' @param to Path to new location
 #'
-#' @importFrom magick image_read image_data image_write
+#' @importFrom magick image_read image_data image_write image_crop
 #'
 #' @return Path to cropped images
 #' @export
@@ -30,9 +30,9 @@
 circle_crop <- function(images, to = NULL) {
 
   if(any(is_url(images))) {
-    images_urls <- images[is_url(images)]
+    id <- which(is_url(images))
+    images_urls <- images[id]
     image_paths <- download_images(images_urls)
-    images <- c(images[!is_url(images)], image_paths)
   }
 
   if(is.null(to)) {
@@ -41,38 +41,32 @@ circle_crop <- function(images, to = NULL) {
 
   purrr::map2_chr(images, to, function(images, to) {
 
-    # read in the image and do the stuff
     img <- image_read(images)
     dat <- image_data(img, "rgba")
     dims <- dim(dat)
 
-    center <- dims[2:3]/2
-    r <- min(dims[2:3])/2
-    dx <- (center[1]-r)
-    dy <- (center[2]-r)
-    x_vals <- 1:(2*r)
-    y_vals <- x_vals
+    center <- floor(dims[2:3]/2)
+    r <- floor(min(dims[2:3])/2)
+
+    # crop to square
+    start_point <- round(center-r)
+    depth <- 2*r
+    geom <- glue::glue("{depth}x{depth}+{start_point[1]}+{start_point[2]}")
+
+    img <- image_crop(img, geom)
+    dat <- image_data(img, "rgba")
+    dims <- dim(dat)
+    center <- floor(dims[2:3]/2)
+    x_vals <- 1:dims[2]
+    y_vals <- 1:dims[3]
 
     for(x in x_vals) {
-      y <- round(sqrt(r^2 - (x - r)^2) + r)
-      inside <- (2*r-y):y
-      outside <- y_vals[-inside]
-      dat[4, x+dx, outside+dy] <- as.raw(00)
+      d <- sqrt((x - center[1])^2 + (y_vals - center[2])^2)
+      outside <- which(d > r)
+      dat[4, x, outside] <- as.raw(00)
     }
 
-    if(dx > 0) {
-      x_pos <- ceiling(c(1:dx, (dims[2]-dx):dims[2]))
-      dat[4, x_pos, ] <- as.raw(00)
-    }
-    if(dy > 0) {
-      y_pos <- ceiling(c(1:dy, (dims[3]-dy):dims[3]))
-      dat[4, ,y_pos] <- as.raw(00)
-    }
-
-    # browser()
-
-    image_read(dat) |>
-      image_write(to)
+    image_write(image_read(dat), to)
 
     to
 
@@ -121,6 +115,3 @@ download_images <- function(images) {
 is_url <- function(path) {
   base::substr(path, 1, 4) == "http"
 }
-
-
-

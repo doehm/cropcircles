@@ -15,6 +15,7 @@ Description: Functions for circle cropping images. the `circle_crop` takes a
 Depends:
   R (>= 3.5.0)
 Imports:
+  glue,
   magick,
   purrr,
   utils

@@ -50,3 +50,6 @@ ggplot() +
 ```
 
 <img src='dev/images/bb.png' align="center"/>
+
+The function can take an image with any dimensions. It will circle crop
+the image from the center with a diameter of the smallest dimension.

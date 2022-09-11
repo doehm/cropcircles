@@ -3,6 +3,7 @@
 export(circle_crop)
 export(download_images)
 export(is_url)
+importFrom(magick,image_crop)
 importFrom(magick,image_data)
 importFrom(magick,image_read)
 importFrom(magick,image_write)
