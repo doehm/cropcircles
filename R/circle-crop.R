@@ -1,6 +1,6 @@
 #' Circle crop
 #'
-#' This functions reads in an image  and circle crops it with a transparent
+#' This function reads in an image and circle crops it with a transparent
 #' background. If a new path is given it will save the cropped images to
 #' the new location. If no path is given it will save to a temporary location
 #' which will be cleared when the session is closed
@@ -29,11 +29,12 @@
 #' }
 circle_crop <- function(images, to = NULL) {
 
-  if(any(is_url(images))) {
-    id <- which(is_url(images))
-    images_urls <- images[id]
-    image_paths <- download_images(images_urls)
-  }
+  # looks like image_read handsles the downloads so don't need this
+  # if(any(is_url(images))) {
+  #   id <- which(is_url(images))
+  #   images_urls <- images[id]
+  #   images[id] <- download_images(images_urls)
+  # }
 
   if(is.null(to)) {
     to <- purrr::map_chr(1:length(images), ~tempfile(pattern = "cropped", tmpdir = tempdir(), fileext = ".png"))

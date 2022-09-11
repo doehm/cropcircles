@@ -77,3 +77,15 @@ image_read(x)
 
 
 x <- circle_crop("https://github.com/doehm/cropcircles/blob/main/dev/images/moss-beast.jpg")
+
+
+images <- c(
+  'https://openpsychometrics.org/tests/characters/test-resources/pics/BB/9.jpg',
+  "dev/images/moss-beast.jpg"
+)
+image_read(circle_crop(images))
+
+x <- circle_crop(images)
+
+image_montage(image_read(x))
+
