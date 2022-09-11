@@ -65,3 +65,12 @@ to
 library(ggpath)
 ggplot() +
   geom_from_path(aes(0, 0, path = zib))
+
+ancestral_trail <- c(
+  "dev/images/moss-beast.jpg",
+  "dev/images/tolosh.jpg",
+  "dev/images/baal.jpg"
+)
+
+x <- circle_crop(ancestral_trail)
+image_read(x)

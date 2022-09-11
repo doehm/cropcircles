@@ -6,7 +6,7 @@ output: github_document
 
 Crop an image into a circle with a transparent background.
 
-The purpose of this package is to provide a simple and straight forward way to circle crop an image, with a transparent background and plot it with `ggimage`, `ggpath`, or include tables e.g. `gt`, `reactable`, etc. There are a few ways to do this, but this package intends to make it as simplified as possible.
+The purpose of this package is to provide a simple and straight forward way to circle crop an image, with a transparent background and plot it with `ggimage`, `ggpath`, or include in tables using e.g. `gt`, `reactable`, etc. There are a few ways to do this, but this package intends to make it as simplified as possible.
 
 ## Installation
 
