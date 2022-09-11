@@ -23,8 +23,8 @@ the cropped images can be provided or if left blank it will save them to
 a temp location which is cleared when the session ends.
 
 ``` r
-library(dplyr)
 library(cropcircles)
+library(dplyr)
 library(ggimage)
 
 # breaking bad images
@@ -45,7 +45,6 @@ ggplot() +
   geom_image(aes(3.5, y, image = images_cropped), df, size = 0.15) +
   xlim(0, 5) +
   ylim(0, 5) +
-  theme_void() +
   coord_fixed()
 ```
 

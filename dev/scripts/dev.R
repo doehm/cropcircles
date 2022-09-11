@@ -74,3 +74,6 @@ ancestral_trail <- c(
 
 x <- circle_crop(ancestral_trail)
 image_read(x)
+
+
+x <- circle_crop("https://github.com/doehm/cropcircles/blob/main/dev/images/moss-beast.jpg")
