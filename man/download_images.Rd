@@ -18,6 +18,12 @@ The images are cleared when the session ends
 }
 \examples{
 \dontrun{
-download_images()
+images <- c(
+  'https://openpsychometrics.org/tests/characters/test-resources/pics/BB/1.jpg',
+  'https://openpsychometrics.org/tests/characters/test-resources/pics/BB/3.jpg',
+  'https://openpsychometrics.org/tests/characters/test-resources/pics/BB/9.jpg'
+  )
+
+download_images(images)
 }
 }

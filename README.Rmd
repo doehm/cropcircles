@@ -31,15 +31,13 @@ images <- c(
   "https://openpsychometrics.org/tests/characters/test-resources/pics/BB/9.jpg", 
   "https://openpsychometrics.org/tests/characters/test-resources/pics/BB/8.jpg")
 
-df <- tibble(
-  y = 1:4,
-  images = images
-  ) |> 
+df <- tibble(y = 1:4, images = images) |> 
   mutate(images_cropped = circle_crop(images))
 
-ggplot() +
-  geom_image(aes(1.5, y, image = images), df, size = 0.15) +
-  geom_image(aes(3.5, y, image = images_cropped), df, size = 0.15) +
+df |> 
+  ggplot() +
+  geom_image(aes(1.5, y, image = images), size = 0.15) +
+  geom_image(aes(3.5, y, image = images_cropped), size = 0.15) +
   xlim(0, 5) +
   ylim(0, 5) +
   coord_fixed()

@@ -89,12 +89,17 @@ circle_crop <- function(images, to = NULL) {
 #' @export
 #'
 #' @examples \dontrun{
-#' download_images()
+#' images <- c(
+#'   'https://openpsychometrics.org/tests/characters/test-resources/pics/BB/1.jpg',
+#'   'https://openpsychometrics.org/tests/characters/test-resources/pics/BB/3.jpg',
+#'   'https://openpsychometrics.org/tests/characters/test-resources/pics/BB/9.jpg'
+#'   )
+#'
+#' download_images(images)
 #' }
 download_images <- function(images) {
   dest <- purrr::map_chr(1:length(images), ~tempfile(pattern = "cropped", tmpdir = tempdir(), fileext = ".png"))
-  # purrr::map2_chr(images, dest, ~download.file(.x, .y, mode = "wb"))
-  download.file(images, dest, mode = "wb")
+  download.file(images, dest, mode = "wb", quiet = TRUE)
   dest
 }
 
