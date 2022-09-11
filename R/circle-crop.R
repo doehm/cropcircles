@@ -29,7 +29,7 @@
 #' }
 circle_crop <- function(images, to = NULL) {
 
-  # looks like image_read handsles the downloads so don't need this
+  # looks like image_read handles the downloads so don't need this
   # if(any(is_url(images))) {
   #   id <- which(is_url(images))
   #   images_urls <- images[id]
