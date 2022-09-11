@@ -1,5 +1,14 @@
+
+library(showtext)
+font_add_google("Antonio", "ant")
+showtext_auto()
+
+image_read("dev/images/crop-circle-2.jpg") |>
+  image_modulate(brightness = 40) |>
+  image_write("dev/images/crop-circle-3.jpg")
+
 sticker(
-  "dev/images/crop-circle-2.jpg",
+  "dev/images/crop-circle-3.jpg",
   package = "cropcircles",
   p_size=20,
   s_x=1,
@@ -7,9 +16,12 @@ sticker(
   s_width=2,
   s_height=2,
   p_y = 0.55,
-  p_color = "grey20",
+  p_color = "#d6ccc2",
   p_fontface = "bold",
-  filename="hex.png")
+  p_family = "ant",
+  h_color = "#d6ccc2",
+  h_size = 2,
+  filename="dev/images/hex-staging.png")
 
 
 # purrr::map2_chr(images, to, function(images, to) {
