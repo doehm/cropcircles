@@ -23,16 +23,17 @@ which will be cleared when the session is closed
 }
 \examples{
 \dontrun{
+library(magick)
 
-images <- c(
-  'https://openpsychometrics.org/tests/characters/test-resources/pics/BB/1.jpg',
-  'https://openpsychometrics.org/tests/characters/test-resources/pics/BB/3.jpg',
-  'https://openpsychometrics.org/tests/characters/test-resources/pics/BB/9.jpg'
-  )
+img_paths <- c(
+  "https://openpsychometrics.org/tests/characters/test-resources/pics/BB/1.jpg",
+  "https://openpsychometrics.org/tests/characters/test-resources/pics/BB/3.jpg",
+  "https://openpsychometrics.org/tests/characters/test-resources/pics/BB/9.jpg",
+  "https://openpsychometrics.org/tests/characters/test-resources/pics/BB/8.jpg")
 
- img_cropped <- circle_crop(images)
+ img_paths_cropped <- circle_crop(img_paths)
 
- magick::image_read(img_cropped[1])
-
+ imgs <- image_read(img_paths_cropped)
+ image_montage(imgs)
 }
 }

@@ -1,15 +1,17 @@
 Package: cropcircles
 Type: Package
-Title: Circle Crops an Image with a Transparent Background
+Title: Crops an Image to a Circle
 Version: 0.1.0
-Author@R: 
-  person(given = "Daniel",
-         family = "Oehm",
-         role = c("aut", "cre"),
-         email = "danieloehm@gmail.com")
-Author: Dan Oehm
-Maintainer: Dan Oehm <danieloehm@gmail.com>
-Description: Crop an image to a circle with a transparent background. The function takes 
+Authors@R: 
+  person(
+    given = "Daniel",
+    family = "Oehm",
+    role = c("aut", "cre"),
+    email = "danieloehm@gmail.com"
+  )
+URL: https://github.com/doehm/cropcircles
+BugReports: https://github.com/doehm/cropcircles/issues
+Description: Crop an image to a circle with a transparent background. The function takes a
   vector of images, either local or from a link, and circle crops the image. Paths to the
   cropped image are returned for plotting with 'ggplot2'.
 Depends:

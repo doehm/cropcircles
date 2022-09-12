@@ -15,17 +15,18 @@
 #' @export
 #'
 #' @examples \dontrun{
+#' library(magick)
 #'
-#' images <- c(
-#'   'https://openpsychometrics.org/tests/characters/test-resources/pics/BB/1.jpg',
-#'   'https://openpsychometrics.org/tests/characters/test-resources/pics/BB/3.jpg',
-#'   'https://openpsychometrics.org/tests/characters/test-resources/pics/BB/9.jpg'
-#'   )
+#' img_paths <- c(
+#'   "https://openpsychometrics.org/tests/characters/test-resources/pics/BB/1.jpg",
+#'   "https://openpsychometrics.org/tests/characters/test-resources/pics/BB/3.jpg",
+#'   "https://openpsychometrics.org/tests/characters/test-resources/pics/BB/9.jpg",
+#'   "https://openpsychometrics.org/tests/characters/test-resources/pics/BB/8.jpg")
 #'
-#'  img_cropped <- circle_crop(images)
+#'  img_paths_cropped <- circle_crop(img_paths)
 #'
-#'  magick::image_read(img_cropped[1])
-#'
+#'  imgs <- image_read(img_paths_cropped)
+#'  image_montage(imgs)
 #' }
 circle_crop <- function(images, to = NULL) {
 
@@ -66,22 +67,4 @@ circle_crop <- function(images, to = NULL) {
 
   })
 
-}
-
-
-#' Is URL
-#'
-#' Checks if the given address is a URL or not. Returns a logical vector.
-#'
-#' @param path Path to image
-#'
-#' @return Logical vector. `TRUE` if path is a url. `FALSE` otherwise
-#' @export
-#'
-#' @examples
-#'  is_url('https://openpsychometrics.org/tests/characters/test-resources/pics/BB/1.jpg')
-#'
-#'  is_url("C:/path_to_not_url/image.png")
-is_url <- function(path) {
-  base::substr(path, 1, 4) == "http"
 }

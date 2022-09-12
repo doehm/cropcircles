@@ -1,4 +1,7 @@
 
+
+# make hexsticker ---------------------------------------------------------
+
 library(showtext)
 font_add_google("Antonio", "ant")
 showtext_auto()
@@ -23,7 +26,8 @@ sticker(
   h_size = 2,
   filename="dev/images/hex-staging.png")
 
-# test function
+# test function -----------------------------------------------------------
+
 images <- c(
   'https://openpsychometrics.org/tests/characters/test-resources/pics/BB/9.jpg',
   "dev/images/moss-beast.jpg",
@@ -35,8 +39,6 @@ x <- circle_crop(images)
 
 image_read(x) |>
   magick::image_montage()
-
-
 
 #' Download images
 #'
@@ -63,4 +65,21 @@ download_images <- function(images) {
   dest <- purrr::map_chr(1:length(images), ~tempfile(pattern = "cropped", tmpdir = tempdir(), fileext = ".png"))
   download.file(images, dest, mode = "wb", quiet = TRUE)
   dest
+}
+
+#' Is URL
+#'
+#' Checks if the given address is a URL or not. Returns a logical vector.
+#'
+#' @param path Path to image
+#'
+#' @return Logical vector. `TRUE` if path is a url. `FALSE` otherwise
+#' @export
+#'
+#' @examples
+#'  is_url('https://openpsychometrics.org/tests/characters/test-resources/pics/BB/1.jpg')
+#'
+#'  is_url("C:/path_to_not_url/image.png")
+is_url <- function(path) {
+  base::substr(path, 1, 4) == "http"
 }
