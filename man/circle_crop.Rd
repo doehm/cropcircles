@@ -16,7 +16,7 @@ will be downloaded first.}
 Path to cropped images
 }
 \description{
-This functions reads in an image  and circle crops it with a transparent
+This function reads in an image and circle crops it with a transparent
 background. If a new path is given it will save the cropped images to
 the new location. If no path is given it will save to a temporary location
 which will be cleared when the session is closed

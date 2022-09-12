@@ -23,69 +23,44 @@ sticker(
   h_size = 2,
   filename="dev/images/hex-staging.png")
 
-
-# purrr::map2_chr(images, to, function(images, to) {
-
-to <- "zibella-cropped.png"
-images <- "../tidyTuesday/zibella.jpg"
-
-# read in the image and do the stuff
-img <- image_read(images)
-dat <- image_data(img, "rgba")
-dims <- dim(dat)
-
-center <- floor(dims[2:3]/2)
-r <- floor(min(dims[2:3])/2)
-
-# crop to square
-start_point <- round(center-r)
-depth <- 2*r
-geom <- glue::glue("{depth}x{depth}+{start_point[1]}+{start_point[2]}")
-
-img <- magick::image_crop(img, geom)
-dat <- image_data(img, "rgba")
-dims <- dim(dat)
-center <- floor(dims[2:3]/2)
-x_vals <- 1:dims[2]
-y_vals <- 1:dims[3]
-
-for(x in x_vals) {
-  d <- sqrt((x - center[1])^2 + (y_vals - center[2])^2)
-  outside <- which(d > r)
-  dat[4, x, outside] <- as.raw(00)
-}
-
-
-image_write(image_read(dat), to)
-
-to
-
-# })
-
-library(ggpath)
-ggplot() +
-  geom_from_path(aes(0, 0, path = zib))
-
-ancestral_trail <- c(
+# test function
+images <- c(
+  'https://openpsychometrics.org/tests/characters/test-resources/pics/BB/9.jpg',
   "dev/images/moss-beast.jpg",
   "dev/images/tolosh.jpg",
   "dev/images/baal.jpg"
 )
 
-x <- circle_crop(ancestral_trail)
-image_read(x)
-
-
-x <- circle_crop("https://github.com/doehm/cropcircles/blob/main/dev/images/moss-beast.jpg")
-
-
-images <- c(
-  'https://openpsychometrics.org/tests/characters/test-resources/pics/BB/9.jpg',
-  "dev/images/moss-beast.jpg"
-)
-image_read(circle_crop(images))
-
 x <- circle_crop(images)
 
-image_montage(image_read(x))
+image_read(x) |>
+  magick::image_montage()
 
+
+
+#' Download images
+#'
+#' If the images are a URL they will be downloaded and saved in a temporary location.
+#' The images are cleared when the session ends
+#'
+#' @param images A vector of URLs to image location
+#'
+#' @importFrom utils download.file
+#'
+#' @return The paths to the downloaded images
+#' @export
+#'
+#' @examples \dontrun{
+#' images <- c(
+#'   'https://openpsychometrics.org/tests/characters/test-resources/pics/BB/1.jpg',
+#'   'https://openpsychometrics.org/tests/characters/test-resources/pics/BB/3.jpg',
+#'   'https://openpsychometrics.org/tests/characters/test-resources/pics/BB/9.jpg'
+#'   )
+#'
+#' download_images(images)
+#' }
+download_images <- function(images) {
+  dest <- purrr::map_chr(1:length(images), ~tempfile(pattern = "cropped", tmpdir = tempdir(), fileext = ".png"))
+  download.file(images, dest, mode = "wb", quiet = TRUE)
+  dest
+}

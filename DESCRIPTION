@@ -9,16 +9,15 @@ Author@R:
          email = "danieloehm@gmail.com")
 Author: Dan Oehm
 Maintainer: Dan Oehm <danieloehm@gmail.com>
-Description: Functions for circle cropping images. the `circle_crop` takes a 
-  vector of images, either local or from a link, and circle crops the image. 
-  The resulting images can be plotted with 'ggplot2'.
+Description: Crop an image to a circle with a transparent background. The function takes 
+  vector of images, either local or from a link, and circle crops the image. Paths to the
+  cropped image are returned for plotting with 'ggplot2'.
 Depends:
   R (>= 3.5.0)
 Imports:
   glue,
   magick,
-  purrr,
-  utils
+  purrr
 License: CC0
 Encoding: UTF-8
 LazyData: true

@@ -29,32 +29,24 @@
 #' }
 circle_crop <- function(images, to = NULL) {
 
-  # looks like image_read handles the downloads so don't need this
-  # if(any(is_url(images))) {
-  #   id <- which(is_url(images))
-  #   images_urls <- images[id]
-  #   images[id] <- download_images(images_urls)
-  # }
-
   if(is.null(to)) {
     to <- purrr::map_chr(1:length(images), ~tempfile(pattern = "cropped", tmpdir = tempdir(), fileext = ".png"))
   }
 
   purrr::map2_chr(images, to, function(images, to) {
 
+    # crop to square
     img <- image_read(images)
     dat <- image_data(img, "rgba")
     dims <- dim(dat)
-
     center <- floor(dims[2:3]/2)
     r <- floor(min(dims[2:3])/2)
-
-    # crop to square
     start_point <- round(center-r)
     depth <- 2*r
     geom <- glue::glue("{depth}x{depth}+{start_point[1]}+{start_point[2]}")
-
     img <- image_crop(img, geom)
+
+    # crop to a circle
     dat <- image_data(img, "rgba")
     dims <- dim(dat)
     center <- floor(dims[2:3]/2)
@@ -67,41 +59,13 @@ circle_crop <- function(images, to = NULL) {
       dat[4, x, outside] <- as.raw(00)
     }
 
+    # write and return path
     image_write(image_read(dat), to)
 
     to
 
   })
 
-}
-
-
-
-#' Download images
-#'
-#' If the images are a URL they will be downloaded and saved in a temporary location.
-#' The images are cleared when the session ends
-#'
-#' @param images A vector of URLs to image location
-#'
-#' @importFrom utils download.file
-#'
-#' @return The paths to the downloaded images
-#' @export
-#'
-#' @examples \dontrun{
-#' images <- c(
-#'   'https://openpsychometrics.org/tests/characters/test-resources/pics/BB/1.jpg',
-#'   'https://openpsychometrics.org/tests/characters/test-resources/pics/BB/3.jpg',
-#'   'https://openpsychometrics.org/tests/characters/test-resources/pics/BB/9.jpg'
-#'   )
-#'
-#' download_images(images)
-#' }
-download_images <- function(images) {
-  dest <- purrr::map_chr(1:length(images), ~tempfile(pattern = "cropped", tmpdir = tempdir(), fileext = ".png"))
-  download.file(images, dest, mode = "wb", quiet = TRUE)
-  dest
 }
 
 
