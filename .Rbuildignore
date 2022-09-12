@@ -3,5 +3,4 @@
 dev
 README.Rmd
 ^CRAN-SUBMISSION$
-NEWS.md
 cran-comments.md
