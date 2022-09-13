@@ -1,6 +1,6 @@
 #' Circle crop
 #'
-#' This function reads in an image and circle crops it with a transparent
+#' Reads in an image and circle crops it with a transparent
 #' background. If a new path is given it will save the cropped images to
 #' the new location. If no path is given it will save to a temporary location
 #' which will be cleared when the session is closed
@@ -14,7 +14,7 @@
 #' @return Path to cropped images
 #' @export
 #'
-#' @examples \dontrun{
+#' @examples
 #' library(magick)
 #'
 #' img_paths <- c(
@@ -27,7 +27,6 @@
 #'
 #'  imgs <- image_read(img_paths_cropped)
 #'  image_montage(imgs)
-#' }
 circle_crop <- function(images, to = NULL) {
 
   if(is.null(to)) {

@@ -11,7 +11,7 @@ Authors@R:
   )
 URL: https://github.com/doehm/cropcircles
 BugReports: https://github.com/doehm/cropcircles/issues
-Description: Crop an image to a circle with a transparent background. The function takes a
+Description: Images are cropped to a circle with a transparent background. The function takes a
   vector of images, either local or from a link, and circle crops the image. Paths to the
   cropped image are returned for plotting with 'ggplot2'.
 Depends:
