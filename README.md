@@ -11,6 +11,14 @@ intends to make it as simplified as possible.
 
 ## Installation
 
+From CRAN
+
+``` r
+install.packages("cropcircles")
+```
+
+Or Git
+
 ``` r
 devtools::install_github("doehm/cropcircles")
 ```

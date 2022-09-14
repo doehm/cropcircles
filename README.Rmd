@@ -10,6 +10,14 @@ The purpose of this package is to provide a simple and straight forward way to c
 
 ## Installation
 
+From CRAN
+
+```{r, eval = FALSE}
+install.packages("cropcircles")
+```
+
+Or Git
+
 ```{r, eval = FALSE}
 devtools::install_github("doehm/cropcircles")
 ```
