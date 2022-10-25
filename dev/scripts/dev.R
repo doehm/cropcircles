@@ -29,16 +29,43 @@ sticker(
 # test function -----------------------------------------------------------
 
 images <- c(
-  'https://openpsychometrics.org/tests/characters/test-resources/pics/BB/9.jpg',
+  # 'https://openpsychometrics.org/tests/characters/test-resources/pics/BB/9.jpg',
   "dev/images/moss-beast.jpg",
   "dev/images/tolosh.jpg",
-  "dev/images/baal.jpg"
+  "dev/images/baal.jpg",
+  "dev/images/HarryBigfoot.webp"
 )
 
+a <- Sys.time()
 x <- circle_crop(images)
+b <- Sys.time()
+b - a
 
 image_read(x) |>
   magick::image_montage()
+
+
+# square crop -------------------------------------------------------------
+
+a <- Sys.time()
+x <- square_crop(images)
+b <- Sys.time()
+b - a
+
+image_read(x) |>
+  magick::image_montage()
+
+
+# hex crop ----------------------------------------------------------------
+
+a <- Sys.time()
+x <- hex_crop(images[1])
+b <- Sys.time()
+b - a
+
+image_read(x) |>
+  magick::image_montage()
+
 
 #' Download images
 #'
@@ -83,3 +110,20 @@ download_images <- function(images) {
 is_url <- function(path) {
   base::substr(path, 1, 4) == "http"
 }
+
+x_vals <- 1:dims[2]
+y_vals <- 1:dims[3]
+
+for(x in x_vals) {
+  d <- sqrt((x - center[1])^2 + (y_vals - center[2])^2)
+  outside <- which(d > r)
+  dat[4, x, outside] <- as.raw(00)
+}
+
+
+
+x <- rep(1:dims[2], dims[3])
+y <- rep(1:dims[3], each = dims[2])
+d <- sqrt((x - center[1])^2 + (y - center[2])^2)
+outside <- which(d > r)
+dat[4,,][outside] <- as.raw(00)

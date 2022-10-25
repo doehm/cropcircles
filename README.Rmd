@@ -2,6 +2,8 @@
 output: github_document
 ---
 
+<img src='https://cranlogs.r-pkg.org/badges/cropcircles'/><img src='https://cranlogs.r-pkg.org/badges/grand-total/cropcircles'/><img src='https://www.r-pkg.org/badges/version/cropcircles'/>
+
 # cropcircles <img src='dev/images/hex.png' align="right" height="240" />
 
 Crop an image into a circle with a transparent background.
