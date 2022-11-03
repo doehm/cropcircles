@@ -66,6 +66,16 @@ b - a
 image_read(x) |>
   magick::image_montage()
 
+# heart crop ----------------------------------------------------------------
+
+a <- Sys.time()
+x <- heart_crop(images)
+b <- Sys.time()
+b - a
+
+image_read(x) |>
+  magick::image_montage()
+
 
 #' Download images
 #'

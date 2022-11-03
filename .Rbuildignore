@@ -4,3 +4,4 @@ dev
 README.Rmd
 ^CRAN-SUBMISSION$
 cran-comments.md
+^cran-comments\.md$

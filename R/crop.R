@@ -9,7 +9,7 @@
 #' will be downloaded first.
 #' @param to Path to new location
 #'
-#' @importFrom magick image_read image_data image_write image_crop
+#' @importFrom magick image_read image_data image_write image_crop image_resize
 #'
 #' @return Path to cropped images
 #' @export
@@ -17,16 +17,14 @@
 #' @examples
 #' library(magick)
 #'
-#' img_paths <- c(
-#'   "https://openpsychometrics.org/tests/characters/test-resources/pics/BB/1.jpg",
-#'   "https://openpsychometrics.org/tests/characters/test-resources/pics/BB/3.jpg",
-#'   "https://openpsychometrics.org/tests/characters/test-resources/pics/BB/9.jpg",
-#'   "https://openpsychometrics.org/tests/characters/test-resources/pics/BB/8.jpg")
+#' x <- c(1, 3, 9, 8)
+#' path <- "https://openpsychometrics.org/tests/characters/test-resources/pics/BB/"
+#' img_paths <- paste0(path, x, ".jpg")
 #'
-#'  img_paths_cropped <- circle_crop(img_paths)
+#' img_paths_cropped <- circle_crop(img_paths)
 #'
-#'  imgs <- image_read(img_paths_cropped)
-#'  image_montage(imgs)
+#' imgs <- image_read(img_paths_cropped)
+#' image_montage(imgs)
 circle_crop <- function(images, to = NULL) {
 
   if(is.null(to)) {
@@ -86,16 +84,14 @@ circle_crop <- function(images, to = NULL) {
 #' @examples
 #' library(magick)
 #'
-#' img_paths <- c(
-#'   "https://openpsychometrics.org/tests/characters/test-resources/pics/BB/1.jpg",
-#'   "https://openpsychometrics.org/tests/characters/test-resources/pics/BB/3.jpg",
-#'   "https://openpsychometrics.org/tests/characters/test-resources/pics/BB/9.jpg",
-#'   "https://openpsychometrics.org/tests/characters/test-resources/pics/BB/8.jpg")
+#' x <- c(1, 3, 9, 8)
+#' path <- "https://openpsychometrics.org/tests/characters/test-resources/pics/BB/"
+#' img_paths <- paste0(path, x, ".jpg")
 #'
-#'  img_paths_cropped <- square_crop(img_paths)
+#' img_paths_cropped <- square_crop(img_paths)
 #'
-#'  imgs <- image_read(img_paths_cropped)
-#'  image_montage(imgs)
+#' imgs <- image_read(img_paths_cropped)
+#' image_montage(imgs)
 square_crop <- function(images, to = NULL) {
 
   if(is.null(to)) {
@@ -140,16 +136,14 @@ square_crop <- function(images, to = NULL) {
 #' @examples
 #' library(magick)
 #'
-#' img_paths <- c(
-#'   "https://openpsychometrics.org/tests/characters/test-resources/pics/BB/1.jpg",
-#'   "https://openpsychometrics.org/tests/characters/test-resources/pics/BB/3.jpg",
-#'   "https://openpsychometrics.org/tests/characters/test-resources/pics/BB/9.jpg",
-#'   "https://openpsychometrics.org/tests/characters/test-resources/pics/BB/8.jpg")
+#' x <- c(1, 3, 9, 8)
+#' path <- "https://openpsychometrics.org/tests/characters/test-resources/pics/BB/"
+#' img_paths <- paste0(path, x, ".jpg")
 #'
-#'  img_paths_cropped <- hex_crop(img_paths)
+#' img_paths_cropped <- hex_crop(img_paths)
 #'
-#'  imgs <- image_read(img_paths_cropped)
-#'  image_montage(imgs)
+#' imgs <- image_read(img_paths_cropped)
+#' image_montage(imgs)
 hex_crop <- function(images, to = NULL) {
 
   if(is.null(to)) {
@@ -169,7 +163,7 @@ hex_crop <- function(images, to = NULL) {
     geom <- glue::glue("{depth*0.8662}x{depth}+{start_point[1]+0.1338*center[1]}+{start_point[2]}")
     img <- image_crop(img, geom)
 
-    # crop to a circle
+    # crop to a hex
     dat <- image_data(img, "rgba")
     dims <- dim(dat)[-1]
     center <- round(dims/2)
@@ -195,6 +189,66 @@ hex_crop <- function(images, to = NULL) {
       outside <- which(y_vals < dims[2] - pos | y_vals > pos)
       dat[4, x, outside] <- as.raw(00)
     }
+
+    # write and return path
+    image_write(image_read(dat), to)
+
+    to
+
+  })
+
+}
+
+#' Heart crop
+#'
+#' Reads in an image and crops to a heart shape If a new path is given it will save the cropped images to
+#' the new location. If no path is given it will save to a temporary location
+#' which will be cleared when the session is closed
+#'
+#' @param images Vector of image paths, either local or urls. If urls the images
+#' will be downloaded first.
+#' @param to Path to new location
+#'
+#' @return Path to cropped images
+#' @export
+#'
+#' @examples
+#' library(magick)
+#'
+#' x <- c(1, 3, 9, 8)
+#' path <- "https://openpsychometrics.org/tests/characters/test-resources/pics/BB/"
+#' img_paths <- paste0(path, x, ".jpg")
+#'
+#' img_paths_cropped <- heart_crop(img_paths)
+#'
+#' imgs <- image_read(img_paths_cropped)
+#' image_montage(imgs)
+heart_crop <- function(images, to = NULL) {
+
+  if(is.null(to)) {
+    to <- purrr::map_chr(1:length(images), ~tempfile(pattern = "cropped", tmpdir = tempdir(), fileext = ".png"))
+  }
+
+  purrr::map2_chr(images, to, function(image, to) {
+
+    # crop to right dimensions
+    img <- image_read(image)
+    dat <- image_data(img, "rgba")
+    dims <- dim(dat)
+    center <- floor(dims[2:3]/2)
+    r <- floor(min(dims[2:3])/2)
+    start_point <- round(center-r)
+    depth <- 2*r
+    geom <- glue::glue("{depth}x{depth}+{start_point[1]}+{start_point[2]}")
+    img <- image_crop(img, geom)
+
+    # crop to a hex
+    dat <- image_data(img, "rgba")
+    dims <- dim(dat)
+    heart <- image_read(file.path(system.file(package = "cropcircles"), "masks", "heart.png"))
+    heart <- image_resize(heart, glue::glue("{dims[2]}x{dims[3]}"))
+    dat_heart <- image_data(heart, "rgba")
+    dat[4,,] <- dat_heart[4,,]
 
     # write and return path
     image_write(image_read(dat), to)
