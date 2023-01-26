@@ -4,10 +4,12 @@
 \alias{f_heart}
 \title{heart cropping}
 \usage{
-f_heart(x)
+f_heart(x, just = "center")
 }
 \arguments{
 \item{x}{Magick image}
+
+\item{just}{Where to justify the image prior to cropping}
 }
 \value{
 Magick images

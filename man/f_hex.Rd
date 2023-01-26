@@ -4,10 +4,12 @@
 \alias{f_hex}
 \title{Title}
 \usage{
-f_hex(x)
+f_hex(x, just = "center")
 }
 \arguments{
 \item{x}{Magick image}
+
+\item{just}{Where to justify the image prior to cropping}
 }
 \value{
 Magick image

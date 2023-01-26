@@ -1,10 +1,11 @@
-#' Circle crop
+
+#' Square crop
 #'
 #' @param x Magick images
+#' @param just Where to justify the image prior to
 #'
 #' @return Magick image
-f_circle <- function(x) {
-  # crop to square
+f_square <- function(x, just = "center") {
   if(!"magick-image" %in% class(x)) x <- image_read(x)
   dat <- image_data(x, "rgba")
   dims <- dim(dat)
@@ -12,13 +13,35 @@ f_circle <- function(x) {
   r <- floor(min(dims[2:3])/2)
   start_point <- round(center-r)
   depth <- 2*r
+  if(just == "left") {
+    start_point[1] <- 0
+  } else if(just == "right") {
+    start_point[1] <- 2*start_point[1]
+  } else if(just == "top") {
+    start_point[2] <- 0
+  } else if(just == "bottom") {
+    start_point[2] <- 2*start_point[2]
+  }
   geom <- glue::glue("{depth}x{depth}+{start_point[1]}+{start_point[2]}")
-  x <- image_crop(x, geom)
+  image_crop(x, geom)
+}
+
+#' Circle crop
+#'
+#' @param x Magick images
+#' @param just Where to justify the image prior to cropping
+#'
+#' @return Magick image
+f_circle <- function(x, just = "center") {
+
+    # crop to square
+  x <- f_square(x, just)
 
   # crop to a circle
   dat <- image_data(x, "rgba")
   dims <- dim(dat)
   center <- floor(dims[2:3]/2)
+  r <- floor(min(dims[2:3])/2)
 
   x_vals <- 1:dims[2]
   y_vals <- 1:dims[3]
@@ -28,16 +51,20 @@ f_circle <- function(x) {
     outside <- which(d > r)
     dat[4, x, outside] <- as.raw(00)
   }
+
   image_read(dat)
+
 }
 
 
 #' Title
 #'
 #' @param x Magick image
+#' @param just Where to justify the image prior to cropping
 #'
 #' @return Magick image
-f_hex <- function(x) {
+f_hex <- function(x, just = "center") {
+
   # crop to right dimensions
   if(!"magick-image" %in% class(x)) x <- image_read(x)
   dat <- image_data(x, "rgba")
@@ -46,6 +73,15 @@ f_hex <- function(x) {
   r <- floor(min(dims[2:3])/2)
   start_point <- round(center-r)
   depth <- 2*r
+  if(just == "left") {
+    start_point[1] <- 0
+  } else if(just == "right") {
+    start_point[1] <- 2*start_point[1]
+  } else if(just == "top") {
+    start_point[2] <- 0
+  } else if(just == "bottom") {
+    start_point[2] <- 2*start_point[2]
+  }
   geom <- glue::glue("{depth*0.8662}x{depth}+{start_point[1]+0.1338*center[1]}+{start_point[2]}")
   x <- image_crop(x, geom)
 
@@ -81,19 +117,13 @@ f_hex <- function(x) {
 #' heart cropping
 #'
 #' @param x Magick image
+#' @param just Where to justify the image prior to cropping
 #'
 #' @return Magick images
-f_heart <- function(x) {
+f_heart <- function(x, just = "center") {
 
-  if(!"magick-image" %in% class(x)) x <- image_read(x)
-  dat <- image_data(x, "rgba")
-  dims <- dim(dat)
-  center <- floor(dims[2:3]/2)
-  r <- floor(min(dims[2:3])/2)
-  start_point <- round(center-r)
-  depth <- 2*r
-  geom <- glue::glue("{depth}x{depth}+{start_point[1]}+{start_point[2]}")
-  x <- image_crop(x, geom)
+  # crop to square
+  x <- f_square(x, just)
 
   # crop to a heart
   dat <- image_data(x, "rgba")
@@ -129,9 +159,12 @@ add_border <- function(x, geom, border_size, border_colour) {
   } else if(geom == "heart") {
     offset <- glue("+{border_size}+{border_size}")
     bg <- f_heart(bg)
-  } else {
+  } else if(geom == "circle"){
     offset <- glue("+{border_size}+{border_size}")
     bg <- f_circle(bg)
+  } else if(geom == "square") {
+    offset <- glue("+{border_size}+{border_size}")
+    bg <- f_square(bg)
   }
 
   image_composite(bg, x, offset = offset)

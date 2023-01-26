@@ -10,6 +10,7 @@
 #' @param to Path to new location
 #' @param border_size Border size in pixels.
 #' @param border_colour Border colour.
+#' @param just Where to justify the image prior to cropping
 #'
 #' @importFrom magick image_read image_data image_write image_crop image_resize image_blank image_info image_composite
 #' @importFrom glue glue
@@ -30,7 +31,7 @@
 #'
 #' imgs <- image_read(img_paths_cropped)
 #' image_montage(imgs)
-circle_crop <- function(images, to = NULL, border_size = NULL, border_colour = "black") {
+circle_crop <- function(images, to = NULL, border_size = NULL, border_colour = "black", just = "center") {
 
   if(is.null(to)) {
     to <- purrr::map_chr(1:length(images), ~tempfile(pattern = "cropped", tmpdir = tempdir(), fileext = ".png"))
@@ -41,7 +42,7 @@ circle_crop <- function(images, to = NULL, border_size = NULL, border_colour = "
 
   for(j in 1:n) {
     # crop image
-    imgc <- f_circle(images[j])
+    imgc <- f_circle(images[j], just)
 
     # add border
     if(!is.null(border_size)) {
@@ -65,6 +66,9 @@ circle_crop <- function(images, to = NULL, border_size = NULL, border_colour = "
 #' @param images Vector of image paths, either local or urls. If urls the images
 #' will be downloaded first.
 #' @param to Path to new location
+#' @param border_size Border size in pixels
+#' @param border_colour Border colours
+#' @param just Where to justify image prior to cropping
 #'
 #' @return Path to cropped images
 #' @export
@@ -80,31 +84,29 @@ circle_crop <- function(images, to = NULL, border_size = NULL, border_colour = "
 #'
 #' imgs <- image_read(img_paths_cropped)
 #' image_montage(imgs)
-square_crop <- function(images, to = NULL) {
+square_crop <- function(images, to = NULL, border_size = NULL, border_colour = "black", just = "center") {
 
   if(is.null(to)) {
     to <- purrr::map_chr(1:length(images), ~tempfile(pattern = "cropped", tmpdir = tempdir(), fileext = ".png"))
   }
 
-  purrr::map2_chr(images, to, function(images, to) {
+  n <- length(images)
+  if(length(border_colour) == 1) border_colour <- rep(border_colour, n)
 
-    # crop to square
-    img <- image_read(images)
-    dat <- image_data(img, "rgba")
-    dims <- dim(dat)
-    center <- floor(dims[2:3]/2)
-    r <- floor(min(dims[2:3])/2)
-    start_point <- round(center-r)
-    depth <- 2*r
-    geom <- glue::glue("{depth}x{depth}+{start_point[1]}+{start_point[2]}")
-    img <- image_crop(img, geom)
+  for(j in 1:n) {
+    # crop image
+    imgc <- f_square(images[j], just)
+
+    # add border
+    if(!is.null(border_size)) {
+      imgc <- add_border(imgc, geom = "square", border_size, border_colour[j])
+    }
 
     # write and return path
-    image_write(img, to)
+    image_write(imgc, to[j])
+  }
 
-    to
-
-  })
+  to
 
 }
 
@@ -119,6 +121,7 @@ square_crop <- function(images, to = NULL) {
 #' @param to Path to new location
 #' @param border_size Border size in pixels.
 #' @param border_colour Border colour.
+#' @param just Where to justify image prior to cropping
 #'
 #' @return Path to cropped images
 #' @export
@@ -134,7 +137,7 @@ square_crop <- function(images, to = NULL) {
 #'
 #' imgs <- image_read(img_paths_cropped)
 #' image_montage(imgs)
-hex_crop <- function(images, to = NULL, border_size = NULL, border_colour = "black") {
+hex_crop <- function(images, to = NULL, border_size = NULL, border_colour = "black", just = "center") {
 
   if(is.null(to)) {
     to <- purrr::map_chr(1:length(images), ~tempfile(pattern = "cropped", tmpdir = tempdir(), fileext = ".png"))
@@ -145,7 +148,7 @@ hex_crop <- function(images, to = NULL, border_size = NULL, border_colour = "bla
 
   for(j in 1:n) {
     # crop image
-    imgc <- f_hex(images[j])
+    imgc <- f_hex(images[j], just)
 
     # add border
     if(!is.null(border_size)) {
@@ -171,6 +174,7 @@ hex_crop <- function(images, to = NULL, border_size = NULL, border_colour = "bla
 #' @param to Path to new location.
 #' @param border_size Border size in pixels.
 #' @param border_colour Border colour.
+#' @param just Where to justify image prior to cropping
 #'
 #' @return Path to cropped images
 #' @export
@@ -186,7 +190,7 @@ hex_crop <- function(images, to = NULL, border_size = NULL, border_colour = "bla
 #'
 #' imgs <- image_read(img_paths_cropped)
 #' image_montage(imgs)
-heart_crop <- function(images, to = NULL, border_size = NULL, border_colour = "black") {
+heart_crop <- function(images, to = NULL, border_size = NULL, border_colour = "black", just = "center") {
 
   if(is.null(to)) {
     to <- purrr::map_chr(1:length(images), ~tempfile(pattern = "cropped", tmpdir = tempdir(), fileext = ".png"))
@@ -197,7 +201,7 @@ heart_crop <- function(images, to = NULL, border_size = NULL, border_colour = "b
 
   for(j in 1:n) {
     # crop image
-    imgc <- f_heart(images[j])
+    imgc <- f_heart(images[j], just)
 
     # add border
     if(!is.null(border_size)) {
