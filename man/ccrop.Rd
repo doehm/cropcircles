@@ -4,13 +4,17 @@
 \alias{circle_crop}
 \title{Circle crop}
 \usage{
-circle_crop(images, to = NULL)
+circle_crop(images, to = NULL, border_size = NULL, border_colour = "black")
 }
 \arguments{
 \item{images}{Vector of image paths, either local or urls. If urls the images
 will be downloaded first.}
 
 \item{to}{Path to new location}
+
+\item{border_size}{Border size in pixels.}
+
+\item{border_colour}{Border colour.}
 }
 \value{
 Path to cropped images
@@ -28,7 +32,7 @@ x <- c(1, 3, 9, 8)
 path <- "https://openpsychometrics.org/tests/characters/test-resources/pics/BB/"
 img_paths <- paste0(path, x, ".jpg")
 
-img_paths_cropped <- circle_crop(img_paths)
+img_paths_cropped <- circle_crop(img_paths, border_size = 6)
 
 imgs <- image_read(img_paths_cropped)
 image_montage(imgs)

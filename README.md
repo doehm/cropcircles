@@ -32,6 +32,8 @@ local or URL links, crops the image and returns the path. The path of
 the cropped images can be provided or if left blank it will save them to
 a temp location which is cleared when the session ends.
 
+A border can be added by specifying the size (in pixels) and colour.
+
 ``` r
 library(cropcircles)
 library(dplyr)
@@ -41,8 +43,11 @@ library(ggimage)
 x <- c(1, 3, 9, 8)
 images <- glue::glue("https://openpsychometrics.org/tests/characters/test-resources/pics/BB/{x}.jpg")
 
+# border colours
+border_cols <- colorRampPalette(c("black", "brown4"))(4)
+  
 df <- tibble(y = 1:4, images = images) |> 
-  mutate(images_circle = circle_crop(images))
+  mutate(images_circle = circle_crop(images, border_size = 16, border_colour = border_cols))
 
 df |> 
   ggplot() +

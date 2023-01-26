@@ -8,8 +8,13 @@
 #' @param images Vector of image paths, either local or urls. If urls the images
 #' will be downloaded first.
 #' @param to Path to new location
+#' @param border_size Border size in pixels.
+#' @param border_colour Border colour.
 #'
-#' @importFrom magick image_read image_data image_write image_crop image_resize
+#' @importFrom magick image_read image_data image_write image_crop image_resize image_blank image_info image_composite
+#' @importFrom glue glue
+#'
+#' @rdname ccrop
 #'
 #' @return Path to cropped images
 #' @export
@@ -21,50 +26,33 @@
 #' path <- "https://openpsychometrics.org/tests/characters/test-resources/pics/BB/"
 #' img_paths <- paste0(path, x, ".jpg")
 #'
-#' img_paths_cropped <- circle_crop(img_paths)
+#' img_paths_cropped <- circle_crop(img_paths, border_size = 6)
 #'
 #' imgs <- image_read(img_paths_cropped)
 #' image_montage(imgs)
-circle_crop <- function(images, to = NULL) {
+circle_crop <- function(images, to = NULL, border_size = NULL, border_colour = "black") {
 
   if(is.null(to)) {
     to <- purrr::map_chr(1:length(images), ~tempfile(pattern = "cropped", tmpdir = tempdir(), fileext = ".png"))
   }
 
-  purrr::map2_chr(images, to, function(images, to) {
+  n <- length(images)
+  if(length(border_colour) == 1) border_colour <- rep(border_colour, n)
 
-    # crop to square
-    img <- image_read(images)
-    dat <- image_data(img, "rgba")
-    dims <- dim(dat)
-    center <- floor(dims[2:3]/2)
-    r <- floor(min(dims[2:3])/2)
-    start_point <- round(center-r)
-    depth <- 2*r
-    geom <- glue::glue("{depth}x{depth}+{start_point[1]}+{start_point[2]}")
-    img <- image_crop(img, geom)
+  for(j in 1:n) {
+    # crop image
+    imgc <- f_circle(images[j])
 
-    # crop to a circle
-    dat <- image_data(img, "rgba")
-    dims <- dim(dat)
-    center <- floor(dims[2:3]/2)
-
-    x_vals <- 1:dims[2]
-    y_vals <- 1:dims[3]
-
-    for(x in x_vals) {
-      d <- sqrt((x - center[1])^2 + (y_vals - center[2])^2)
-      outside <- which(d > r)
-      dat[4, x, outside] <- as.raw(00)
+    # add border
+    if(!is.null(border_size)) {
+      imgc <- add_border(imgc, geom = "circle", border_size, border_colour[j])
     }
 
     # write and return path
-    image_write(image_read(dat), to)
+    image_write(imgc, to[j])
+  }
 
-    to
-
-  })
-
+  to
 }
 
 
@@ -129,6 +117,8 @@ square_crop <- function(images, to = NULL) {
 #' @param images Vector of image paths, either local or urls. If urls the images
 #' will be downloaded first.
 #' @param to Path to new location
+#' @param border_size Border size in pixels.
+#' @param border_colour Border colour.
 #'
 #' @return Path to cropped images
 #' @export
@@ -144,58 +134,29 @@ square_crop <- function(images, to = NULL) {
 #'
 #' imgs <- image_read(img_paths_cropped)
 #' image_montage(imgs)
-hex_crop <- function(images, to = NULL) {
+hex_crop <- function(images, to = NULL, border_size = NULL, border_colour = "black") {
 
   if(is.null(to)) {
     to <- purrr::map_chr(1:length(images), ~tempfile(pattern = "cropped", tmpdir = tempdir(), fileext = ".png"))
   }
 
-  purrr::map2_chr(images, to, function(images, to) {
+  n <- length(images)
+  if(length(border_colour) == 1) border_colour <- rep(border_colour, n)
 
-    # crop to right dimensions
-    img <- image_read(images[1])
-    dat <- image_data(img, "rgba")
-    dims <- dim(dat)
-    center <- floor(dims[2:3]/2)
-    r <- floor(min(dims[2:3])/2)
-    start_point <- round(center-r)
-    depth <- 2*r
-    geom <- glue::glue("{depth*0.8662}x{depth}+{start_point[1]+0.1338*center[1]}+{start_point[2]}")
-    img <- image_crop(img, geom)
+  for(j in 1:n) {
+    # crop image
+    imgc <- f_hex(images[j])
 
-    # crop to a hex
-    dat <- image_data(img, "rgba")
-    dims <- dim(dat)[-1]
-    center <- round(dims/2)
-    x1 <- round(center[1]-cos(pi/6)*center[2])
-    x2 <- dims[1]-x1
-    y1 <- (dims[2]-center[2])/2 + center[2]
-    y2 <- (dims[2]-center[2])/2
-
-    line1 <- function(x) (dims[2]-y1)/(center[1]-x1)*(x-x1) + y1
-    line2 <- function(x) (y1-dims[2])/(x2-center[1])*(x-center[1]) + dims[2]
-
-    x_vals <- 1:dims[1]
-    y_vals <- 1:dims[2]
-
-    for(x in 1:center[1]) {
-      pos <- line1(x)
-      outside <- which(y_vals < dims[2] - pos | y_vals > pos)
-      dat[4, x, outside] <- as.raw(00)
-    }
-
-    for(x in (center[1]+1):dims[1]) {
-      pos <- line2(x)
-      outside <- which(y_vals < dims[2] - pos | y_vals > pos)
-      dat[4, x, outside] <- as.raw(00)
+    # add border
+    if(!is.null(border_size)) {
+      imgc <- add_border(imgc, geom = "hex", border_size, border_colour[j])
     }
 
     # write and return path
-    image_write(image_read(dat), to)
+    image_write(imgc, to[j])
+  }
 
-    to
-
-  })
+  to
 
 }
 
@@ -207,7 +168,9 @@ hex_crop <- function(images, to = NULL) {
 #'
 #' @param images Vector of image paths, either local or urls. If urls the images
 #' will be downloaded first.
-#' @param to Path to new location
+#' @param to Path to new location.
+#' @param border_size Border size in pixels.
+#' @param border_colour Border colour.
 #'
 #' @return Path to cropped images
 #' @export
@@ -223,39 +186,28 @@ hex_crop <- function(images, to = NULL) {
 #'
 #' imgs <- image_read(img_paths_cropped)
 #' image_montage(imgs)
-heart_crop <- function(images, to = NULL) {
+heart_crop <- function(images, to = NULL, border_size = NULL, border_colour = "black") {
 
   if(is.null(to)) {
     to <- purrr::map_chr(1:length(images), ~tempfile(pattern = "cropped", tmpdir = tempdir(), fileext = ".png"))
   }
 
-  purrr::map2_chr(images, to, function(image, to) {
+  n <- length(images)
+  if(length(border_colour) == 1) border_colour <- rep(border_colour, n)
 
-    # crop to right dimensions
-    img <- image_read(image)
-    dat <- image_data(img, "rgba")
-    dims <- dim(dat)
-    center <- floor(dims[2:3]/2)
-    r <- floor(min(dims[2:3])/2)
-    start_point <- round(center-r)
-    depth <- 2*r
-    geom <- glue::glue("{depth}x{depth}+{start_point[1]}+{start_point[2]}")
-    img <- image_crop(img, geom)
+  for(j in 1:n) {
+    # crop image
+    imgc <- f_heart(images[j])
 
-    # crop to a hex
-    dat <- image_data(img, "rgba")
-    dims <- dim(dat)
-    heart <- image_read(file.path(system.file(package = "cropcircles"), "masks", "heart.png"))
-    heart <- image_resize(heart, glue::glue("{dims[2]}x{dims[3]}"))
-    dat_heart <- image_data(heart, "rgba")
-    dat[4,,] <- dat_heart[4,,]
+    # add border
+    if(!is.null(border_size)) {
+      imgc <- add_border(imgc, geom = "heart", border_size, border_colour[j])
+    }
 
     # write and return path
-    image_write(image_read(dat), to)
+    image_write(imgc, to[j])
+  }
 
-    to
-
-  })
-
+  to
 }
 
