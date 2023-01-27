@@ -68,7 +68,7 @@ Also check out `hex_crop` and `heart_crop`.
 
 ## Justify
 
-With rectangluar images the subject for focus may not be centered. The `*_crop` functions include a `just` argument which can take values `left`, `right`, `top` and `bottom`. It simply shifts the initial cropping window to the desired side.
+With rectangular images the subject for focus may not be centered. The `*_crop` functions include a `just` argument which can take values `left`, `right`, `top` and `bottom`. It simply shifts the initial cropping window to the desired side.
 
 ```{r}
 library(magick)
