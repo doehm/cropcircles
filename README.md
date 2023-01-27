@@ -64,3 +64,37 @@ The function can take an image with any dimensions. It will circle crop
 the image from the center with a diameter of the smallest dimension.
 
 Also check out `hex_crop` and `heart_crop`.
+
+## Justify
+
+With rectangluar images the subject for focus may not be centered. The
+`*_crop` functions include a `just` argument which can take values
+`left`, `right`, `top` and `bottom`. It simply shifts the initial
+cropping window to the desired side.
+
+``` r
+library(magick)
+```
+
+    ## Linking to ImageMagick 6.9.12.3
+    ## Enabled features: cairo, freetype, fftw, ghostscript, heic, lcms, pango, raw, rsvg, webp
+    ## Disabled features: fontconfig, x11
+
+``` r
+# justification example
+img_path <- file.path(system.file(package = "cropcircles"), "images", "walter-jesse.png")
+orig <- image_read(img_path)
+
+# center (default)
+center <- image_read(circle_crop(img_path, border_size = 4))
+
+# left
+left <- image_read(circle_crop(img_path, border_size = 4, just = "left"))
+
+# right
+right <- image_read(circle_crop(img_path, border_size = 4, just = "right"))
+
+image_montage(c(orig, center, left, right))
+```
+
+<img src="README_files/figure-gfm/unnamed-chunk-5-1.png" width="768" />
