@@ -2,7 +2,7 @@
 % Please edit documentation in R/helpers.R
 \name{f_heart}
 \alias{f_heart}
-\title{heart cropping}
+\title{heart crop helper}
 \usage{
 f_heart(x, just = "center")
 }
@@ -15,5 +15,5 @@ f_heart(x, just = "center")
 Magick images
 }
 \description{
-heart cropping
+heart crop helper
 }

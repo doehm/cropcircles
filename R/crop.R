@@ -31,17 +31,17 @@
 #' image_montage(imgs)
 #'
 #' # justification example
-#' img_path <- file.path(system.file(package = "cropcircles"), "images", "walter jesse.png")
+#' img_path <- file.path(system.file(package = "cropcircles"), "images", "walter-jesse.png")
 #' image_read(img_path)
 #'
 #' # center (default)
-#' image_read(circle_crop("inst/images/walter jesse.png", border_size = 10))
+#' image_read(circle_crop(img_path, border_size = 10))
 #'
 #' # left
-#' image_read(circle_crop("inst/images/walter jesse.png", border_size = 10, just = "left"))
+#' image_read(circle_crop(img_path, border_size = 10, just = "left"))
 #'
 #' # right
-#' image_read(circle_crop("inst/images/walter jesse.png", border_size = 10, just = "right"))
+#' image_read(circle_crop(img_path, border_size = 10, just = "right"))
 circle_crop <- function(images, to = NULL, border_size = NULL, border_colour = "black", just = "center") {
 
   if(is.null(to)) {

@@ -2,7 +2,7 @@
 % Please edit documentation in R/helpers.R
 \name{f_hex}
 \alias{f_hex}
-\title{Title}
+\title{Hex crop helper}
 \usage{
 f_hex(x, just = "center")
 }
@@ -15,5 +15,5 @@ f_hex(x, just = "center")
 Magick image
 }
 \description{
-Title
+Hex crop helper
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/helpers.R
 \name{f_circle}
 \alias{f_circle}
-\title{Circle crop}
+\title{Circle crop helper}
 \usage{
 f_circle(x, just = "center")
 }
@@ -15,5 +15,5 @@ f_circle(x, just = "center")
 Magick image
 }
 \description{
-Circle crop
+Circle crop helper
 }

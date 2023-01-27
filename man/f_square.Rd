@@ -2,7 +2,7 @@
 % Please edit documentation in R/helpers.R
 \name{f_square}
 \alias{f_square}
-\title{Square crop}
+\title{Square crop helper}
 \usage{
 f_square(x, just = "center")
 }
@@ -15,5 +15,5 @@ f_square(x, just = "center")
 Magick image
 }
 \description{
-Square crop
+Square crop helper
 }
