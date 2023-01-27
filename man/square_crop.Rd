@@ -22,7 +22,7 @@ will be downloaded first.}
 
 \item{border_colour}{Border colours}
 
-\item{just}{Where to justify image prior to cropping}
+\item{just}{Where to justify image prior to cropping. Accepted values: `left`, `right`, `top`, `bottom`}
 }
 \value{
 Path to cropped images

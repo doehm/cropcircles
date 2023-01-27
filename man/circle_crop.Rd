@@ -22,7 +22,7 @@ will be downloaded first.}
 
 \item{border_colour}{Border colour.}
 
-\item{just}{Where to justify the image prior to cropping}
+\item{just}{Where to justify the image prior to cropping. Accepted values: `left`, `right`, `top`, `bottom`}
 }
 \value{
 Path to cropped images
@@ -44,4 +44,17 @@ img_paths_cropped <- circle_crop(img_paths, border_size = 6)
 
 imgs <- image_read(img_paths_cropped)
 image_montage(imgs)
+
+# justification example
+img_path <- file.path(system.file(package = "cropcircles"), "images", "walter jesse.png")
+image_read(img_path)
+
+# center (default)
+image_read(circle_crop("inst/images/walter jesse.png", border_size = 10))
+
+# left
+image_read(circle_crop("inst/images/walter jesse.png", border_size = 10, just = "left"))
+
+# right
+image_read(circle_crop("inst/images/walter jesse.png", border_size = 10, just = "right"))
 }

@@ -1,5 +1,5 @@
 
-#' Square crop
+#' Square crop helper
 #'
 #' @param x Magick images
 #' @param just Where to justify the image prior to
@@ -26,7 +26,7 @@ f_square <- function(x, just = "center") {
   image_crop(x, geom)
 }
 
-#' Circle crop
+#' Circle crop helper
 #'
 #' @param x Magick images
 #' @param just Where to justify the image prior to cropping
@@ -57,7 +57,7 @@ f_circle <- function(x, just = "center") {
 }
 
 
-#' Title
+#' Hex crop helper
 #'
 #' @param x Magick image
 #' @param just Where to justify the image prior to cropping
@@ -114,7 +114,7 @@ f_hex <- function(x, just = "center") {
   image_read(dat)
 }
 
-#' heart cropping
+#' heart crop helper
 #'
 #' @param x Magick image
 #' @param just Where to justify the image prior to cropping

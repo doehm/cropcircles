@@ -10,12 +10,10 @@
 #' @param to Path to new location
 #' @param border_size Border size in pixels.
 #' @param border_colour Border colour.
-#' @param just Where to justify the image prior to cropping
+#' @param just Where to justify the image prior to cropping. Accepted values: `left`, `right`, `top`, `bottom`
 #'
 #' @importFrom magick image_read image_data image_write image_crop image_resize image_blank image_info image_composite
 #' @importFrom glue glue
-#'
-#' @rdname ccrop
 #'
 #' @return Path to cropped images
 #' @export
@@ -31,6 +29,19 @@
 #'
 #' imgs <- image_read(img_paths_cropped)
 #' image_montage(imgs)
+#'
+#' # justification example
+#' img_path <- file.path(system.file(package = "cropcircles"), "images", "walter jesse.png")
+#' image_read(img_path)
+#'
+#' # center (default)
+#' image_read(circle_crop("inst/images/walter jesse.png", border_size = 10))
+#'
+#' # left
+#' image_read(circle_crop("inst/images/walter jesse.png", border_size = 10, just = "left"))
+#'
+#' # right
+#' image_read(circle_crop("inst/images/walter jesse.png", border_size = 10, just = "right"))
 circle_crop <- function(images, to = NULL, border_size = NULL, border_colour = "black", just = "center") {
 
   if(is.null(to)) {
@@ -68,7 +79,7 @@ circle_crop <- function(images, to = NULL, border_size = NULL, border_colour = "
 #' @param to Path to new location
 #' @param border_size Border size in pixels
 #' @param border_colour Border colours
-#' @param just Where to justify image prior to cropping
+#' @param just Where to justify image prior to cropping. Accepted values: `left`, `right`, `top`, `bottom`
 #'
 #' @return Path to cropped images
 #' @export
@@ -121,7 +132,7 @@ square_crop <- function(images, to = NULL, border_size = NULL, border_colour = "
 #' @param to Path to new location
 #' @param border_size Border size in pixels.
 #' @param border_colour Border colour.
-#' @param just Where to justify image prior to cropping
+#' @param just Where to justify image prior to cropping. Accepted values: `left`, `right`, `top`, `bottom`
 #'
 #' @return Path to cropped images
 #' @export
@@ -174,7 +185,7 @@ hex_crop <- function(images, to = NULL, border_size = NULL, border_colour = "bla
 #' @param to Path to new location.
 #' @param border_size Border size in pixels.
 #' @param border_colour Border colour.
-#' @param just Where to justify image prior to cropping
+#' @param just Where to justify image prior to cropping. Accepted values: `left`, `right`, `top`, `bottom`
 #'
 #' @return Path to cropped images
 #' @export
