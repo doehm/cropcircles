@@ -97,4 +97,4 @@ right <- image_read(circle_crop(img_path, border_size = 4, just = "right"))
 image_montage(c(orig, center, left, right))
 ```
 
-<img src="README_files/figure-gfm/unnamed-chunk-5-1.png" width="768" />
+<img src="README_files/figure-gfm/unnamed-chunk-5-1.png" width="400" />
