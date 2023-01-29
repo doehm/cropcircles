@@ -5,7 +5,7 @@
 #' @param just Where to justify the image prior to
 #'
 #' @return Magick image
-f_square <- function(x, just = "center") {
+cut_square <- function(x, just = "center") {
   if(!"magick-image" %in% class(x)) x <- image_read(x)
   dat <- image_data(x, "rgba")
   dims <- dim(dat)
@@ -32,10 +32,10 @@ f_square <- function(x, just = "center") {
 #' @param just Where to justify the image prior to cropping
 #'
 #' @return Magick image
-f_circle <- function(x, just = "center") {
+cut_circle <- function(x, just = "center") {
 
     # crop to square
-  x <- f_square(x, just)
+  x <- cut_square(x, just)
 
   # crop to a circle
   dat <- image_data(x, "rgba")
@@ -63,7 +63,7 @@ f_circle <- function(x, just = "center") {
 #' @param just Where to justify the image prior to cropping
 #'
 #' @return Magick image
-f_hex <- function(x, just = "center") {
+cut_hex <- function(x, just = "center") {
 
   # crop to right dimensions
   if(!"magick-image" %in% class(x)) x <- image_read(x)
@@ -120,10 +120,10 @@ f_hex <- function(x, just = "center") {
 #' @param just Where to justify the image prior to cropping
 #'
 #' @return Magick images
-f_heart <- function(x, just = "center") {
+cut_heart <- function(x, just = "center") {
 
   # crop to square
-  x <- f_square(x, just)
+  x <- cut_square(x, just)
 
   # crop to a heart
   dat <- image_data(x, "rgba")
@@ -155,16 +155,16 @@ add_border <- function(x, geom, border_size, border_colour) {
   if(geom == "hex") {
     x_adj <- round(border_size/ht*wd)
     offset <- glue("+{x_adj}+{border_size}")
-    bg <- f_hex(bg)
+    bg <- cut_hex(bg)
   } else if(geom == "heart") {
     offset <- glue("+{border_size}+{border_size}")
-    bg <- f_heart(bg)
+    bg <- cut_heart(bg)
   } else if(geom == "circle"){
     offset <- glue("+{border_size}+{border_size}")
-    bg <- f_circle(bg)
+    bg <- cut_circle(bg)
   } else if(geom == "square") {
     offset <- glue("+{border_size}+{border_size}")
-    bg <- f_square(bg)
+    bg <- cut_square(bg)
   }
 
   image_composite(bg, x, offset = offset)

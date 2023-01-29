@@ -53,7 +53,7 @@ circle_crop <- function(images, to = NULL, border_size = NULL, border_colour = "
 
   for(j in 1:n) {
     # crop image
-    imgc <- f_circle(images[j], just)
+    imgc <- cut_circle(images[j], just)
 
     # add border
     if(!is.null(border_size)) {
@@ -106,7 +106,7 @@ square_crop <- function(images, to = NULL, border_size = NULL, border_colour = "
 
   for(j in 1:n) {
     # crop image
-    imgc <- f_square(images[j], just)
+    imgc <- cut_square(images[j], just)
 
     # add border
     if(!is.null(border_size)) {
@@ -159,7 +159,7 @@ hex_crop <- function(images, to = NULL, border_size = NULL, border_colour = "bla
 
   for(j in 1:n) {
     # crop image
-    imgc <- f_hex(images[j], just)
+    imgc <- cut_hex(images[j], just)
 
     # add border
     if(!is.null(border_size)) {
@@ -212,7 +212,7 @@ heart_crop <- function(images, to = NULL, border_size = NULL, border_colour = "b
 
   for(j in 1:n) {
     # crop image
-    imgc <- f_heart(images[j], just)
+    imgc <- cut_heart(images[j], just)
 
     # add border
     if(!is.null(border_size)) {

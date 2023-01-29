@@ -2,6 +2,7 @@
 ^\.Rproj\.user$
 dev
 README.Rmd
+README_files
 ^CRAN-SUBMISSION$
 cran-comments.md
 ^cran-comments\.md$
