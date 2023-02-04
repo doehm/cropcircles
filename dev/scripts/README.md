@@ -9,7 +9,7 @@ The background from an image can be remove through an API call to
 
 # Steps
 
-## Create an account
+## 1. Create an account
 
 Create an account at [remove.bg](https://www.remove.bg/). I’ve found
 this site to be very simple, albeit pricey. However, the first 50 images
@@ -18,7 +18,7 @@ are free each month.
 Log in, head to [here](https://www.remove.bg/tools-api/api-commandline)
 and follow the FAQs to generate an API key.
 
-## Install Python and `reticulate`
+## 2. Install Python and `reticulate`
 
 This requires Python and `reticulate` to access the API.
 
@@ -54,7 +54,7 @@ you can switch between R and Python which is incredible!
 
 For more head [here](https://rstudio.github.io/reticulate/)
 
-## Call the API
+## 3. Call the API
 
 Save `removebg.py` to your local directory. Copy the code below, make
 the appropriate changes and run the code. Once run the images should be
