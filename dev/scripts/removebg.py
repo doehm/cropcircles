@@ -14,4 +14,5 @@ def call_remove_bg(api_key, image, to):
       print("Error:", response.status_code, response.text)
   
 for k in range(0,len(r.images)):
-  call_remove_bg(api_key = r.api_key, image = r.images[k], to = r.to[k])
+  print(r.images)
+  call_remove_bg(api_key = r.api_key, image = r.images, to = r.to)
