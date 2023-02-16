@@ -13,6 +13,13 @@ def call_remove_bg(api_key, image, to):
   else:
       print("Error:", response.status_code, response.text)
   
-for k in range(0,len(r.images)):
-  print(r.images)
-  call_remove_bg(api_key = r.api_key, image = r.images, to = r.to)
+if len(r.images) == 1: 
+  img_ls = [r.images]
+  img_to = [r.to]
+else:
+  img_ls = r.images
+  img_to = r.to
+  
+for k in range(0,len(img_ls)):
+  print(img_ls[k])
+  call_remove_bg(api_key = r.api_key, image = img_ls[k], to = img_to[k])
