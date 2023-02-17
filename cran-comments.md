@@ -8,3 +8,5 @@
 * Justify the cropping window.
   * `just` takes values left, right, top, bottom. Useful for rectangular images
 * Version increment
+
+check_win_devel() and check_rhub() pass
