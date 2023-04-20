@@ -151,7 +151,7 @@ add_border <- function(x, geom, border_size, border_colour) {
   wd <- info$width
   d <- max(ht, wd)+2*border_size
   bg <- image_blank(d, d, color = border_colour)
-  bg_infill <- image_blank(max(ht, wd), max(ht, wd), color = "green4")
+  bg_infill <- image_blank(max(ht, wd), max(ht, wd), color = border_colour)
 
   if(geom == "hex") {
     x_adj <- round(border_size/ht*wd)
