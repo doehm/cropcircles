@@ -1,3 +1,7 @@
+# cropcircles 0.2.2.1
+
+* Fix: background fill the same colour as the border
+
 # cropcircles 0.2.2
 
 * Each parameter in *_crop functions can now take a vector of values
