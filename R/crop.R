@@ -49,15 +49,17 @@ circle_crop <- function(images, to = NULL, border_size = NULL, border_colour = "
   }
 
   n <- length(images)
-  if(length(border_colour) == 1) border_colour <- rep(border_colour, n)
+  if(length(border_colour) != n) border_colour <- rep(border_colour, n)
+  if(length(border_size) != n) border_size <- rep(border_size, n)
+  if(length(just) != n) just <- rep(just, n)
 
   for(j in 1:n) {
     # crop image
-    imgc <- cut_circle(images[j], just)
+    imgc <- cut_circle(images[j], just[j])
 
     # add border
     if(!is.null(border_size)) {
-      imgc <- add_border(imgc, geom = "circle", border_size, border_colour[j])
+      imgc <- add_border(imgc, geom = "circle", border_size[j], border_colour[j])
     }
 
     # write and return path
@@ -102,15 +104,17 @@ square_crop <- function(images, to = NULL, border_size = NULL, border_colour = "
   }
 
   n <- length(images)
-  if(length(border_colour) == 1) border_colour <- rep(border_colour, n)
+  if(length(border_colour) != n) border_colour <- rep(border_colour, n)
+  if(length(border_size) != n) border_size <- rep(border_size, n)
+  if(length(just) != n) just <- rep(just, n)
 
   for(j in 1:n) {
     # crop image
-    imgc <- cut_square(images[j], just)
+    imgc <- cut_square(images[j], just[j])
 
     # add border
     if(!is.null(border_size)) {
-      imgc <- add_border(imgc, geom = "square", border_size, border_colour[j])
+      imgc <- add_border(imgc, geom = "square", border_size[j], border_colour[j])
     }
 
     # write and return path
@@ -155,15 +159,17 @@ hex_crop <- function(images, to = NULL, border_size = NULL, border_colour = "bla
   }
 
   n <- length(images)
-  if(length(border_colour) == 1) border_colour <- rep(border_colour, n)
+  if(length(border_colour) != n) border_colour <- rep(border_colour, n)
+  if(length(border_size) != n) border_size <- rep(border_size, n)
+  if(length(just) != n) just <- rep(just, n)
 
   for(j in 1:n) {
     # crop image
-    imgc <- cut_hex(images[j], just)
+    imgc <- cut_hex(images[j], just[j])
 
     # add border
     if(!is.null(border_size)) {
-      imgc <- add_border(imgc, geom = "hex", border_size, border_colour[j])
+      imgc <- add_border(imgc, geom = "hex", border_size[j], border_colour[j])
     }
 
     # write and return path
@@ -208,15 +214,17 @@ heart_crop <- function(images, to = NULL, border_size = NULL, border_colour = "b
   }
 
   n <- length(images)
-  if(length(border_colour) == 1) border_colour <- rep(border_colour, n)
+  if(length(border_colour) != n) border_colour <- rep(border_colour, n)
+  if(length(border_size) != n) border_size <- rep(border_size, n)
+  if(length(just) != n) just <- rep(just, n)
 
   for(j in 1:n) {
     # crop image
-    imgc <- cut_heart(images[j], just)
+    imgc <- cut_heart(images[j], just[j])
 
     # add border
     if(!is.null(border_size)) {
-      imgc <- add_border(imgc, geom = "heart", border_size, border_colour[j])
+      imgc <- add_border(imgc, geom = "heart", border_size[j], border_colour[j])
     }
 
     # write and return path

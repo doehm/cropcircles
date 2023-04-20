@@ -151,6 +151,7 @@ add_border <- function(x, geom, border_size, border_colour) {
   wd <- info$width
   d <- max(ht, wd)+2*border_size
   bg <- image_blank(d, d, color = border_colour)
+  bg_infill <- image_blank(max(ht, wd), max(ht, wd), color = "green4")
 
   if(geom == "hex") {
     x_adj <- round(border_size/ht*wd)
@@ -162,10 +163,12 @@ add_border <- function(x, geom, border_size, border_colour) {
   } else if(geom == "circle"){
     offset <- glue("+{border_size}+{border_size}")
     bg <- cut_circle(bg)
+    bg_infill <- cut_circle(bg_infill)
   } else if(geom == "square") {
     offset <- glue("+{border_size}+{border_size}")
     bg <- cut_square(bg)
   }
 
-  image_composite(bg, x, offset = offset)
+  xout <- image_composite(bg, bg_infill, offset = offset)
+  xout <- image_composite(xout, x, offset = offset)
 }
