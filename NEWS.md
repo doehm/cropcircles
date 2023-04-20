@@ -1,3 +1,8 @@
+# cropcircles 0.2.2
+
+* Each parameter in *_crop functions can now take a vector of values
+
+
 # cropcircles 0.2.1
 
 * Automatically add a border when cropping. Works with all `*_crop` functions.
