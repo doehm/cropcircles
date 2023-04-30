@@ -36,29 +36,36 @@ A border can be added by specifying the size (in pixels) and colour.
 
 ``` r
 library(cropcircles)
-library(dplyr)
-library(ggimage)
-
-# breaking bad images
-x <- c(1, 3, 9, 8)
-images <- glue::glue("https://openpsychometrics.org/tests/characters/test-resources/pics/BB/{x}.jpg")
-
-# border colours
-border_cols <- colorRampPalette(c("black", "brown4"))(4)
-  
-df <- tibble(y = 1:4, images = images) |> 
-  mutate(images_circle = circle_crop(images, border_size = 16, border_colour = border_cols))
-
-df |> 
-  ggplot() +
-  geom_image(aes(1.5, y, image = images), size = 0.15) +
-  geom_image(aes(3.5, y, image = images_circle), size = 0.15) +
-  xlim(0, 5) +
-  ylim(0, 5) +
-  coord_fixed()
+library(magick)
 ```
 
-<img src='dev/images/bb.png' align="center"/>
+    ## Linking to ImageMagick 6.9.12.3
+    ## Enabled features: cairo, freetype, fftw, ghostscript, heic, lcms, pango, raw, rsvg, webp
+    ## Disabled features: fontconfig, x11
+
+``` r
+img_path <- file.path(system.file(package = "cropcircles"), "images", "walter-jesse.png")
+img_cropped <- circle_crop(img_path, border_size = 4)
+image_read(img_cropped)
+```
+
+<img src="README_files/figure-gfm/unnamed-chunk-4-1.png" width="232" />
+
+``` r
+# other geometries
+
+image_read(hex_crop(img_path, border_size = 4))
+```
+
+<img src="README_files/figure-gfm/unnamed-chunk-4-2.png" width="201" />
+
+``` r
+image_read(heart_crop(img_path, border_size = 4))
+```
+
+<img src="README_files/figure-gfm/unnamed-chunk-4-3.png" width="232" />
+
+<!-- <img src='dev/images/bb.png' align="center"/> -->
 
 The function can take an image with any dimensions. It will circle crop
 the image from the center with a diameter of the smallest dimension.
@@ -74,13 +81,7 @@ cropping window to the desired side.
 
 ``` r
 library(magick)
-```
 
-    ## Linking to ImageMagick 6.9.12.3
-    ## Enabled features: cairo, freetype, fftw, ghostscript, heic, lcms, pango, raw, rsvg, webp
-    ## Disabled features: fontconfig, x11
-
-``` r
 # justification example
 img_path <- file.path(system.file(package = "cropcircles"), "images", "walter-jesse.png")
 orig <- image_read(img_path)
@@ -97,4 +98,4 @@ right <- image_read(circle_crop(img_path, border_size = 4, just = "right"))
 image_montage(c(orig, center, left, right))
 ```
 
-<img src="README_files/figure-gfm/unnamed-chunk-5-1.png" width="400" />
+<img src="README_files/figure-gfm/unnamed-chunk-5-1.png" width="768" />
