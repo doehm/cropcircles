@@ -1,6 +1,6 @@
-#' Circle crop
+#' Cropping functions
 #'
-#' Reads in an image and circle crops it with a transparent
+#' Reads in an image and crops to the specified geometry with a transparent
 #' background. If a new path is given it will save the cropped images to
 #' the new location. If no path is given it will save to a temporary location
 #' which will be cleared when the session is closed
@@ -15,33 +15,34 @@
 #' @importFrom magick image_read image_data image_write image_crop image_resize image_blank image_info image_composite
 #' @importFrom glue glue
 #'
+#' @name crop
+#'
 #' @return Path to cropped images
 #' @export
 #'
 #' @examples
+#' library(cropcircles)
 #' library(magick)
 #'
-#' x <- c(1, 3, 9, 8)
-#' path <- "https://openpsychometrics.org/tests/characters/test-resources/pics/BB/"
-#' img_paths <- paste0(path, x, ".jpg")
+#' img_path <- file.path(system.file(package = "cropcircles"), "images", "walter-jesse.png")
+#' img_cropped <- circle_crop(img_path, border_size = 6)
+#' image_read(img_cropped)
 #'
-#' img_paths_cropped <- circle_crop(img_paths, border_size = 6)
+#' # other geometries
 #'
-#' imgs <- image_read(img_paths_cropped)
-#' image_montage(imgs)
+#' image_read(hex_crop(img_path, border_size = 6))
+#' image_read(heart_crop(img_path, border_size = 6))
 #'
 #' # justification example
-#' img_path <- file.path(system.file(package = "cropcircles"), "images", "walter-jesse.png")
-#' image_read(img_path)
 #'
 #' # center (default)
-#' image_read(circle_crop(img_path, border_size = 10))
+#' image_read(circle_crop(img_path, border_size = 6))
 #'
 #' # left
-#' image_read(circle_crop(img_path, border_size = 10, just = "left"))
+#' image_read(circle_crop(img_path, border_size = 6, just = "left"))
 #'
 #' # right
-#' image_read(circle_crop(img_path, border_size = 10, just = "right"))
+#' image_read(circle_crop(img_path, border_size = 6, just = "right"))
 circle_crop <- function(images, to = NULL, border_size = NULL, border_colour = "black", just = "center") {
 
   if(is.null(to)) {
@@ -70,33 +71,8 @@ circle_crop <- function(images, to = NULL, border_size = NULL, border_colour = "
 }
 
 
-#' Square crop
-#'
-#' Reads in an image and square crops. If a new path is given it will save the cropped images to
-#' the new location. If no path is given it will save to a temporary location
-#' which will be cleared when the session is closed
-#'
-#' @param images Vector of image paths, either local or urls. If urls the images
-#' will be downloaded first.
-#' @param to Path to new location
-#' @param border_size Border size in pixels
-#' @param border_colour Border colours
-#' @param just Where to justify image prior to cropping. Accepted values: `left`, `right`, `top`, `bottom`
-#'
-#' @return Path to cropped images
+#' @rdname crop
 #' @export
-#'
-#' @examples
-#' library(magick)
-#'
-#' x <- c(1, 3, 9, 8)
-#' path <- "https://openpsychometrics.org/tests/characters/test-resources/pics/BB/"
-#' img_paths <- paste0(path, x, ".jpg")
-#'
-#' img_paths_cropped <- square_crop(img_paths)
-#'
-#' imgs <- image_read(img_paths_cropped)
-#' image_montage(imgs)
 square_crop <- function(images, to = NULL, border_size = NULL, border_colour = "black", just = "center") {
 
   if(is.null(to)) {
@@ -125,33 +101,8 @@ square_crop <- function(images, to = NULL, border_size = NULL, border_colour = "
 
 }
 
-#' Hex crop
-#'
-#' Reads in an image and crops to a hexagon. If a new path is given it will save the cropped images to
-#' the new location. If no path is given it will save to a temporary location
-#' which will be cleared when the session is closed
-#'
-#' @param images Vector of image paths, either local or urls. If urls the images
-#' will be downloaded first.
-#' @param to Path to new location
-#' @param border_size Border size in pixels.
-#' @param border_colour Border colour.
-#' @param just Where to justify image prior to cropping. Accepted values: `left`, `right`, `top`, `bottom`
-#'
-#' @return Path to cropped images
+#' @rdname crop
 #' @export
-#'
-#' @examples
-#' library(magick)
-#'
-#' x <- c(1, 3, 9, 8)
-#' path <- "https://openpsychometrics.org/tests/characters/test-resources/pics/BB/"
-#' img_paths <- paste0(path, x, ".jpg")
-#'
-#' img_paths_cropped <- hex_crop(img_paths)
-#'
-#' imgs <- image_read(img_paths_cropped)
-#' image_montage(imgs)
 hex_crop <- function(images, to = NULL, border_size = NULL, border_colour = "black", just = "center") {
 
   if(is.null(to)) {
@@ -180,33 +131,8 @@ hex_crop <- function(images, to = NULL, border_size = NULL, border_colour = "bla
 
 }
 
-#' Heart crop
-#'
-#' Reads in an image and crops to a heart shape If a new path is given it will save the cropped images to
-#' the new location. If no path is given it will save to a temporary location
-#' which will be cleared when the session is closed
-#'
-#' @param images Vector of image paths, either local or urls. If urls the images
-#' will be downloaded first.
-#' @param to Path to new location.
-#' @param border_size Border size in pixels.
-#' @param border_colour Border colour.
-#' @param just Where to justify image prior to cropping. Accepted values: `left`, `right`, `top`, `bottom`
-#'
-#' @return Path to cropped images
+#' @rdname crop
 #' @export
-#'
-#' @examples
-#' library(magick)
-#'
-#' x <- c(1, 3, 9, 8)
-#' path <- "https://openpsychometrics.org/tests/characters/test-resources/pics/BB/"
-#' img_paths <- paste0(path, x, ".jpg")
-#'
-#' img_paths_cropped <- heart_crop(img_paths)
-#'
-#' imgs <- image_read(img_paths_cropped)
-#' image_montage(imgs)
 heart_crop <- function(images, to = NULL, border_size = NULL, border_colour = "black", just = "center") {
 
   if(is.null(to)) {
