@@ -45,7 +45,12 @@ library(magick)
 
 ``` r
 img_path <- file.path(system.file(package = "cropcircles"), "images", "walter-jesse.png")
+
+# saves to a temporary path
 img_cropped <- circle_crop(img_path, border_size = 4)
+
+# plot image with magic
+# can be used with ggimage or ggpath
 image_read(img_cropped)
 ```
 
@@ -69,8 +74,6 @@ image_read(heart_crop(img_path, border_size = 4))
 
 The function can take an image with any dimensions. It will circle crop
 the image from the center with a diameter of the smallest dimension.
-
-Also check out `hex_crop` and `heart_crop`.
 
 ## Justify
 
