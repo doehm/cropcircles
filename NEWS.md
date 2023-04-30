@@ -1,6 +1,12 @@
+# cropcircles 0.2.3
+
+* Updated documentation examples
+
+
 # cropcircles 0.2.2.1
 
 * Fix: background fill the same colour as the border
+
 
 # cropcircles 0.2.2
 

@@ -2,8 +2,10 @@
 
 0 errors | 0 warnings | 0 note
 
-* Bug fix (apologies)
-  * Resolving issue of background image fill. Now set to border colour
-  * Only relevant for images with transparent backgrounds
+* On request from the CRAN team:
+  * Updated package examples to use assets contained in the package rather than internet resources.
 
-check_win_devel() and check_rhub() pass
+check_win_devel() and check_rhub() pass with 2 notes
+* Days since last update: 3
+  * This update has been requested
+* Found the following files/directories: 'lastMiKTeXException'
