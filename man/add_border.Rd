@@ -4,7 +4,7 @@
 \alias{add_border}
 \title{Add border helper}
 \usage{
-add_border(x, geom, border_size, border_colour)
+add_border(x, geom, border_size, border_colour, bg_fill, orig)
 }
 \arguments{
 \item{x}{magick image}
@@ -14,6 +14,10 @@ add_border(x, geom, border_size, border_colour)
 \item{border_size}{Border size in pixels.}
 
 \item{border_colour}{Border colour}
+
+\item{bg_fill}{Background fill}
+
+\item{orig}{List of original dimensions e.g. `list(wd = 100, ht = 200)`}
 }
 \value{
 Magick image

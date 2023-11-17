@@ -6,6 +6,12 @@
 \alias{square_crop}
 \alias{hex_crop}
 \alias{heart_crop}
+\alias{parallelogram_crop}
+\alias{crop_circle}
+\alias{crop_square}
+\alias{crop_hex}
+\alias{crop_heart}
+\alias{crop_parallelogram}
 \title{Cropping functions}
 \usage{
 circle_crop(
@@ -13,6 +19,7 @@ circle_crop(
   to = NULL,
   border_size = NULL,
   border_colour = "black",
+  bg_fill = NULL,
   just = "center"
 )
 
@@ -21,6 +28,7 @@ square_crop(
   to = NULL,
   border_size = NULL,
   border_colour = "black",
+  bg_fill = NULL,
   just = "center"
 )
 
@@ -29,6 +37,7 @@ hex_crop(
   to = NULL,
   border_size = NULL,
   border_colour = "black",
+  bg_fill = NULL,
   just = "center"
 )
 
@@ -37,6 +46,61 @@ heart_crop(
   to = NULL,
   border_size = NULL,
   border_colour = "black",
+  bg_fill = NULL,
+  just = "center"
+)
+
+parallelogram_crop(
+  images,
+  to = NULL,
+  border_size = NULL,
+  border_colour = "black",
+  bg_fill = NULL,
+  just = "center"
+)
+
+crop_circle(
+  images,
+  to = NULL,
+  border_size = NULL,
+  border_colour = "black",
+  bg_fill = NULL,
+  just = "center"
+)
+
+crop_square(
+  images,
+  to = NULL,
+  border_size = NULL,
+  border_colour = "black",
+  bg_fill = NULL,
+  just = "center"
+)
+
+crop_hex(
+  images,
+  to = NULL,
+  border_size = NULL,
+  border_colour = "black",
+  bg_fill = NULL,
+  just = "center"
+)
+
+crop_heart(
+  images,
+  to = NULL,
+  border_size = NULL,
+  border_colour = "black",
+  bg_fill = NULL,
+  just = "center"
+)
+
+crop_parallelogram(
+  images,
+  to = NULL,
+  border_size = NULL,
+  border_colour = "black",
+  bg_fill = NULL,
   just = "center"
 )
 }
@@ -49,6 +113,9 @@ will be downloaded first.}
 \item{border_size}{Border size in pixels.}
 
 \item{border_colour}{Border colour.}
+
+\item{bg_fill}{Background fill. Allows a different colour as background to the border colour for
+images with a transparent background.}
 
 \item{just}{Where to justify the image prior to cropping. Accepted values: `left`, `right`, `top`, `bottom`}
 }

@@ -1,7 +1,7 @@
 Package: cropcircles
 Type: Package
 Title: Crops an Image to a Circle
-Version: 0.2.3
+Version: 0.2.4
 Authors@R: 
   person(
     given = "Daniel",

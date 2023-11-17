@@ -11,8 +11,10 @@
 #' @param border_size Border size in pixels.
 #' @param border_colour Border colour.
 #' @param just Where to justify the image prior to cropping. Accepted values: `left`, `right`, `top`, `bottom`
+#' @param bg_fill Background fill. Allows a different colour as background to the border colour for
+#' images with a transparent background.
 #'
-#' @importFrom magick image_read image_data image_write image_crop image_resize image_blank image_info image_composite
+#' @importFrom magick image_read image_data image_write image_crop image_resize image_blank image_info image_composite image_flip
 #' @importFrom glue glue
 #'
 #' @name crop
@@ -43,7 +45,7 @@
 #'
 #' # right
 #' image_read(circle_crop(img_path, border_size = 6, just = "right"))
-circle_crop <- function(images, to = NULL, border_size = NULL, border_colour = "black", just = "center") {
+circle_crop <- function(images, to = NULL, border_size = NULL, border_colour = "black", bg_fill = NULL, just = "center") {
 
   if(is.null(to)) {
     to <- purrr::map_chr(1:length(images), ~tempfile(pattern = "cropped", tmpdir = tempdir(), fileext = ".png"))
@@ -52,6 +54,7 @@ circle_crop <- function(images, to = NULL, border_size = NULL, border_colour = "
   n <- length(images)
   if(length(border_colour) != n) border_colour <- rep(border_colour, n)
   if(length(border_size) != n) border_size <- rep(border_size, n)
+  if(length(bg_fill) != n & !is.null(bg_fill)) bg_fill <- rep(bg_fill, n)
   if(length(just) != n) just <- rep(just, n)
 
   for(j in 1:n) {
@@ -60,7 +63,7 @@ circle_crop <- function(images, to = NULL, border_size = NULL, border_colour = "
 
     # add border
     if(!is.null(border_size)) {
-      imgc <- add_border(imgc, geom = "circle", border_size[j], border_colour[j])
+      imgc <- add_border(imgc, geom = "circle", border_size[j], border_colour[j], bg_fill[j])
     }
 
     # write and return path
@@ -73,7 +76,7 @@ circle_crop <- function(images, to = NULL, border_size = NULL, border_colour = "
 
 #' @rdname crop
 #' @export
-square_crop <- function(images, to = NULL, border_size = NULL, border_colour = "black", just = "center") {
+square_crop <- function(images, to = NULL, border_size = NULL, border_colour = "black", bg_fill = NULL, just = "center") {
 
   if(is.null(to)) {
     to <- purrr::map_chr(1:length(images), ~tempfile(pattern = "cropped", tmpdir = tempdir(), fileext = ".png"))
@@ -82,6 +85,7 @@ square_crop <- function(images, to = NULL, border_size = NULL, border_colour = "
   n <- length(images)
   if(length(border_colour) != n) border_colour <- rep(border_colour, n)
   if(length(border_size) != n) border_size <- rep(border_size, n)
+  if(length(bg_fill) != n & !is.null(bg_fill)) bg_fill <- rep(bg_fill, n)
   if(length(just) != n) just <- rep(just, n)
 
   for(j in 1:n) {
@@ -90,7 +94,7 @@ square_crop <- function(images, to = NULL, border_size = NULL, border_colour = "
 
     # add border
     if(!is.null(border_size)) {
-      imgc <- add_border(imgc, geom = "square", border_size[j], border_colour[j])
+      imgc <- add_border(imgc, geom = "square", border_size[j], border_colour[j], bg_fill = bg_fill[j])
     }
 
     # write and return path
@@ -103,7 +107,7 @@ square_crop <- function(images, to = NULL, border_size = NULL, border_colour = "
 
 #' @rdname crop
 #' @export
-hex_crop <- function(images, to = NULL, border_size = NULL, border_colour = "black", just = "center") {
+hex_crop <- function(images, to = NULL, border_size = NULL, border_colour = "black", bg_fill = NULL, just = "center") {
 
   if(is.null(to)) {
     to <- purrr::map_chr(1:length(images), ~tempfile(pattern = "cropped", tmpdir = tempdir(), fileext = ".png"))
@@ -112,6 +116,7 @@ hex_crop <- function(images, to = NULL, border_size = NULL, border_colour = "bla
   n <- length(images)
   if(length(border_colour) != n) border_colour <- rep(border_colour, n)
   if(length(border_size) != n) border_size <- rep(border_size, n)
+  if(length(bg_fill) != n & !is.null(bg_fill)) bg_fill <- rep(bg_fill, n)
   if(length(just) != n) just <- rep(just, n)
 
   for(j in 1:n) {
@@ -120,7 +125,7 @@ hex_crop <- function(images, to = NULL, border_size = NULL, border_colour = "bla
 
     # add border
     if(!is.null(border_size)) {
-      imgc <- add_border(imgc, geom = "hex", border_size[j], border_colour[j])
+      imgc <- add_border(imgc, geom = "hex", border_size[j], border_colour[j], bg_fill = bg_fill[j])
     }
 
     # write and return path
@@ -133,7 +138,7 @@ hex_crop <- function(images, to = NULL, border_size = NULL, border_colour = "bla
 
 #' @rdname crop
 #' @export
-heart_crop <- function(images, to = NULL, border_size = NULL, border_colour = "black", just = "center") {
+heart_crop <- function(images, to = NULL, border_size = NULL, border_colour = "black", bg_fill = NULL, just = "center") {
 
   if(is.null(to)) {
     to <- purrr::map_chr(1:length(images), ~tempfile(pattern = "cropped", tmpdir = tempdir(), fileext = ".png"))
@@ -142,6 +147,7 @@ heart_crop <- function(images, to = NULL, border_size = NULL, border_colour = "b
   n <- length(images)
   if(length(border_colour) != n) border_colour <- rep(border_colour, n)
   if(length(border_size) != n) border_size <- rep(border_size, n)
+  if(length(bg_fill) != n & !is.null(bg_fill)) bg_fill <- rep(bg_fill, n)
   if(length(just) != n) just <- rep(just, n)
 
   for(j in 1:n) {
@@ -150,7 +156,7 @@ heart_crop <- function(images, to = NULL, border_size = NULL, border_colour = "b
 
     # add border
     if(!is.null(border_size)) {
-      imgc <- add_border(imgc, geom = "heart", border_size[j], border_colour[j])
+      imgc <- add_border(imgc, geom = "heart", border_size[j], border_colour[j], bg_fill = bg_fill[j])
     }
 
     # write and return path
@@ -160,3 +166,57 @@ heart_crop <- function(images, to = NULL, border_size = NULL, border_colour = "b
   to
 }
 
+#' @rdname crop
+#' @export
+parallelogram_crop <- function(images, to = NULL, border_size = NULL, border_colour = "black", bg_fill = NULL, just = "center") {
+
+  if(is.null(to)) {
+    to <- purrr::map_chr(1:length(images), ~tempfile(pattern = "cropped", tmpdir = tempdir(), fileext = ".png"))
+  }
+
+  n <- length(images)
+  if(length(border_colour) != n) border_colour <- rep(border_colour, n)
+  if(length(border_size) != n) border_size <- rep(border_size, n)
+  if(length(bg_fill) != n & !is.null(bg_fill)) bg_fill <- rep(bg_fill, n)
+  if(length(just) != n) just <- rep(just, n)
+
+  for(j in 1:n) {
+    # crop image
+    imgc <- cut_parallelogram(images[j], just[j])
+
+    # add border
+    if(!is.null(border_size)) {
+      info <- image_read(images[j]) |>
+        image_info()
+      imgc <- add_border(imgc, geom = "parallelogram", border_size[j], border_colour[j], bg_fill = bg_fill[j], orig = list(wd = info$width, ht = info$height))
+    }
+
+    # write and return path
+    image_write(imgc, to[j])
+  }
+
+  to
+
+}
+
+
+
+#' @rdname crop
+#' @export
+crop_circle <- circle_crop
+
+#' @rdname crop
+#' @export
+crop_square <- square_crop
+
+#' @rdname crop
+#' @export
+crop_hex <- hex_crop
+
+#' @rdname crop
+#' @export
+crop_heart <- heart_crop
+
+#' @rdname crop
+#' @export
+crop_parallelogram <- parallelogram_crop
