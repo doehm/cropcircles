@@ -10,14 +10,15 @@
 #' @param to Path to new location
 #' @param border_size Border size in pixels.
 #' @param border_colour Border colour.
-#' @param just Where to justify the image prior to cropping. Accepted values: `left`, `right`, `top`, `bottom`
-#' @param bg_fill Background fill. Allows a different colour as background to the border colour for
-#' images with a transparent background.
+#' @param just Where to justify the image prior to cropping. Accepted values:
+#' `left`, `right`, `top`, `bottom`
+#' @param bg_fill Background fill. Allows a different colour for the background and
+#' a different colour for the border.
 #'
 #' @importFrom magick image_read image_data image_write image_crop image_resize image_blank image_info image_composite image_flip
 #' @importFrom glue glue
 #'
-#' @name crop
+#' @name crop_circle
 #'
 #' @return Path to cropped images
 #' @export
@@ -27,25 +28,26 @@
 #' library(magick)
 #'
 #' img_path <- file.path(system.file(package = "cropcircles"), "images", "walter-jesse.png")
-#' img_cropped <- circle_crop(img_path, border_size = 6)
+#' img_cropped <- crop_circle(img_path, border_size = 6)
 #' image_read(img_cropped)
 #'
 #' # other geometries
 #'
-#' image_read(hex_crop(img_path, border_size = 6))
-#' image_read(heart_crop(img_path, border_size = 6))
+#' image_read(crop_hex(img_path, border_size = 6))
+#' image_read(crop_heart(img_path, border_size = 6))
+#' image_read(crop_parallelogram(img_path, border_size = 6))
 #'
 #' # justification example
 #'
 #' # center (default)
-#' image_read(circle_crop(img_path, border_size = 6))
+#' image_read(crop_circle(img_path, border_size = 6))
 #'
 #' # left
-#' image_read(circle_crop(img_path, border_size = 6, just = "left"))
+#' image_read(crop_circle(img_path, border_size = 6, just = "left"))
 #'
 #' # right
-#' image_read(circle_crop(img_path, border_size = 6, just = "right"))
-circle_crop <- function(images, to = NULL, border_size = NULL, border_colour = "black", bg_fill = NULL, just = "center") {
+#' image_read(crop_circle(img_path, border_size = 6, just = "right"))
+crop_circle <- function(images, to = NULL, border_size = NULL, border_colour = "black", bg_fill = NULL, just = "center") {
 
   if(is.null(to)) {
     to <- purrr::map_chr(1:length(images), ~tempfile(pattern = "cropped", tmpdir = tempdir(), fileext = ".png"))
@@ -74,9 +76,9 @@ circle_crop <- function(images, to = NULL, border_size = NULL, border_colour = "
 }
 
 
-#' @rdname crop
+#' @rdname crop_circle
 #' @export
-square_crop <- function(images, to = NULL, border_size = NULL, border_colour = "black", bg_fill = NULL, just = "center") {
+crop_square <- function(images, to = NULL, border_size = NULL, border_colour = "black", bg_fill = NULL, just = "center") {
 
   if(is.null(to)) {
     to <- purrr::map_chr(1:length(images), ~tempfile(pattern = "cropped", tmpdir = tempdir(), fileext = ".png"))
@@ -105,9 +107,9 @@ square_crop <- function(images, to = NULL, border_size = NULL, border_colour = "
 
 }
 
-#' @rdname crop
+#' @rdname crop_circle
 #' @export
-hex_crop <- function(images, to = NULL, border_size = NULL, border_colour = "black", bg_fill = NULL, just = "center") {
+crop_hex <- function(images, to = NULL, border_size = NULL, border_colour = "black", bg_fill = NULL, just = "center") {
 
   if(is.null(to)) {
     to <- purrr::map_chr(1:length(images), ~tempfile(pattern = "cropped", tmpdir = tempdir(), fileext = ".png"))
@@ -136,9 +138,9 @@ hex_crop <- function(images, to = NULL, border_size = NULL, border_colour = "bla
 
 }
 
-#' @rdname crop
+#' @rdname crop_circle
 #' @export
-heart_crop <- function(images, to = NULL, border_size = NULL, border_colour = "black", bg_fill = NULL, just = "center") {
+crop_heart <- function(images, to = NULL, border_size = NULL, border_colour = "black", bg_fill = NULL, just = "center") {
 
   if(is.null(to)) {
     to <- purrr::map_chr(1:length(images), ~tempfile(pattern = "cropped", tmpdir = tempdir(), fileext = ".png"))
@@ -166,9 +168,9 @@ heart_crop <- function(images, to = NULL, border_size = NULL, border_colour = "b
   to
 }
 
-#' @rdname crop
+#' @rdname crop_circle
 #' @export
-parallelogram_crop <- function(images, to = NULL, border_size = NULL, border_colour = "black", bg_fill = NULL, just = "center") {
+crop_parallelogram <- function(images, to = NULL, border_size = NULL, border_colour = "black", bg_fill = NULL, just = "center") {
 
   if(is.null(to)) {
     to <- purrr::map_chr(1:length(images), ~tempfile(pattern = "cropped", tmpdir = tempdir(), fileext = ".png"))
@@ -200,23 +202,60 @@ parallelogram_crop <- function(images, to = NULL, border_size = NULL, border_col
 }
 
 
+#' Cropping functions
+#'
+#' [deprecated] The naming convention is now `crop_*`. The old functions
+#' `circle_crop` and `hex_crop` still work but you are encouraged to use the new
+#' functions `crop_circle` and `crop_hex`. There is no difference between these
+#' functions other than the name - Reads in an image and crops to the specified geometry with a transparent
+#' background. If a new path is given it will save the cropped images to
+#' the new location. If no path is given it will save to a temporary location
+#' which will be cleared when the session is closed
+#'
+#' @param images Vector of image paths, either local or urls. If urls the images
+#' will be downloaded first.
+#' @param to Path to new location
+#' @param border_size Border size in pixels.
+#' @param border_colour Border colour.
+#' @param just Where to justify the image prior to cropping. Accepted values:
+#' `left`, `right`, `top`, `bottom`
+#' @param bg_fill Background fill. Allows a different colour for the background and
+#' a different colour for the border.
+#'
+#' @importFrom magick image_read image_data image_write image_crop image_resize image_blank image_info image_composite image_flip
+#' @importFrom glue glue
+#'
+#' @name crop
+#'
+#' @return Path to cropped images
+#' @export
+#'
+#' @examples
+#' library(cropcircles)
+#' library(magick)
+#'
+#' img_path <- file.path(system.file(package = "cropcircles"), "images", "walter-jesse.png")
+#' img_cropped <- crop_circle(img_path, border_size = 6)
+#' image_read(img_cropped)
+#'
+#' # other geometries
+#'
+#' image_read(crop_hex(img_path, border_size = 6))
+#' image_read(crop_heart(img_path, border_size = 6))
+#' image_read(crop_parallelogram(img_path, border_size = 6))
+#'
+#' # justification example
+#'
+#' # center (default)
+#' image_read(crop_circle(img_path, border_size = 6))
+#'
+#' # left
+#' image_read(crop_circle(img_path, border_size = 6, just = "left"))
+#'
+#' # right
+#' image_read(crop_circle(img_path, border_size = 6, just = "right"))
+circle_crop <- crop_circle
 
 #' @rdname crop
 #' @export
-crop_circle <- circle_crop
-
-#' @rdname crop
-#' @export
-crop_square <- square_crop
-
-#' @rdname crop
-#' @export
-crop_hex <- hex_crop
-
-#' @rdname crop
-#' @export
-crop_heart <- heart_crop
-
-#' @rdname crop
-#' @export
-crop_parallelogram <- parallelogram_crop
+hex_crop <- crop_hex

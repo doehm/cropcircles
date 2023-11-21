@@ -11,6 +11,13 @@ with `ggimage`, `ggpath`, or include in tables using e.g. `gt`,
 `reactable`, etc. There are a few ways to do this, but this package
 intends to make it as simplified as possible.
 
+## Release notes
+
+Version 0.2.4 has changed the function naming convention to `crop_*`.
+The old functions are still available and work the same way but will be
+deprecated at some stage. You are encouraged to use `crop_*` from now
+on.
+
 ## Installation
 
 From CRAN
@@ -27,7 +34,7 @@ devtools::install_github("doehm/cropcircles")
 
 ## Usage
 
-The main function `circle_crop` takes a vector of image paths, either
+The main function `crop_circle` takes a vector of image paths, either
 local or URL links, crops the image and returns the path. The path of
 the cropped images can be provided or if left blank it will save them to
 a temp location which is cleared when the session ends.
@@ -39,7 +46,7 @@ library(cropcircles)
 library(magick)
 ```
 
-    ## Linking to ImageMagick 6.9.12.3
+    ## Linking to ImageMagick 6.9.12.93
     ## Enabled features: cairo, freetype, fftw, ghostscript, heic, lcms, pango, raw, rsvg, webp
     ## Disabled features: fontconfig, x11
 
@@ -47,7 +54,7 @@ library(magick)
 img_path <- file.path(system.file(package = "cropcircles"), "images", "walter-jesse.png")
 
 # saves to a temporary path
-img_cropped <- circle_crop(img_path, border_size = 4)
+img_cropped <- crop_circle(img_path, border_size = 4)
 
 # plot image with magic
 # can be used with ggimage or ggpath
@@ -59,13 +66,13 @@ image_read(img_cropped)
 ``` r
 # other geometries
 
-image_read(hex_crop(img_path, border_size = 4))
+image_read(crop_hex(img_path, border_size = 4))
 ```
 
 <img src="README_files/figure-gfm/unnamed-chunk-4-2.png" width="201" />
 
 ``` r
-image_read(heart_crop(img_path, border_size = 4))
+image_read(crop_heart(img_path, border_size = 4))
 ```
 
 <img src="README_files/figure-gfm/unnamed-chunk-4-3.png" width="232" />
@@ -78,7 +85,7 @@ the image from the center with a diameter of the smallest dimension.
 ## Justify
 
 With rectangular images the subject for focus may not be centered. The
-`*_crop` functions include a `just` argument which can take values
+`crop_*` functions include a `just` argument which can take values
 `left`, `right`, `top` and `bottom`. It simply shifts the initial
 cropping window to the desired side.
 
@@ -90,13 +97,13 @@ img_path <- file.path(system.file(package = "cropcircles"), "images", "walter-je
 orig <- image_read(img_path)
 
 # center (default)
-center <- image_read(circle_crop(img_path, border_size = 4))
+center <- image_read(crop_circle(img_path, border_size = 4))
 
 # left
-left <- image_read(circle_crop(img_path, border_size = 4, just = "left"))
+left <- image_read(crop_circle(img_path, border_size = 4, just = "left"))
 
 # right
-right <- image_read(circle_crop(img_path, border_size = 4, just = "right"))
+right <- image_read(crop_circle(img_path, border_size = 4, just = "right"))
 
 image_montage(c(orig, center, left, right))
 ```
