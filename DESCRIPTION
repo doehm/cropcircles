@@ -13,7 +13,8 @@ URL: https://github.com/doehm/cropcircles
 BugReports: https://github.com/doehm/cropcircles/issues
 Description: Images are cropped to a circle with a transparent background. The function takes a
   vector of images, either local or from a link, and circle crops the image. Paths to the
-  cropped image are returned for plotting with 'ggplot2'.
+  cropped image are returned for plotting with 'ggplot2'. Also includes cropping to a hexagon,
+  heart, parallogram, and square.
 Depends:
   R (>= 3.5.0)
 Imports:

@@ -14,9 +14,8 @@ intends to make it as simplified as possible.
 ## Release notes
 
 Version 0.2.4 has changed the function naming convention to `crop_*`.
-The old functions are still available and work the same way but will be
-deprecated at some stage. You are encouraged to use `crop_*` from now
-on.
+`circle_crop` and `hex_crop` are still available and work the same way
+so won’t break existing code but will be deprecated at some stage.
 
 ## Installation
 
