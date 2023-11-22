@@ -1,3 +1,10 @@
+# cropcircles 0.2.4
+
+* Function naming convention changed to `crop_*`
+* New crop function `crop_parallelogram`
+* New feature to add a background fill colour with `bg_fill`
+
+
 # cropcircles 0.2.3
 
 * Updated documentation examples
