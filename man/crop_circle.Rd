@@ -6,6 +6,8 @@
 \alias{crop_hex}
 \alias{crop_heart}
 \alias{crop_parallelogram}
+\alias{circle_crop}
+\alias{hex_crop}
 \title{Cropping functions}
 \usage{
 crop_circle(
@@ -52,6 +54,24 @@ crop_parallelogram(
   bg_fill = NULL,
   just = "center"
 )
+
+circle_crop(
+  images,
+  to = NULL,
+  border_size = NULL,
+  border_colour = "black",
+  bg_fill = NULL,
+  just = "center"
+)
+
+hex_crop(
+  images,
+  to = NULL,
+  border_size = NULL,
+  border_colour = "black",
+  bg_fill = NULL,
+  just = "center"
+)
 }
 \arguments{
 \item{images}{Vector of image paths, either local or urls. If urls the images
@@ -77,6 +97,11 @@ Reads in an image and crops to the specified geometry with a transparent
 background. If a new path is given it will save the cropped images to
 the new location. If no path is given it will save to a temporary location
 which will be cleared when the session is closed
+}
+\note{
+The naming convention is now `crop_*`. The old functions
+`circle_crop` and `hex_crop` still work but you are encouraged to use the new
+functions `crop_circle` and `crop_hex`.
 }
 \examples{
 library(cropcircles)
